@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">Naujos knygos įkėlimas</div>
                 <div class="card-body">
-                    @livewire('book-create') 
+                
                 </div>
             </div>
         </div>

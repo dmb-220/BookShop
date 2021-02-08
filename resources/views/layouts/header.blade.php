@@ -1,56 +1,102 @@
-<nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-    <div class="container">
-        <a class="navbar-brand" href="{{ url('/') }}">
-            {{ config('app.name', 'Laravel') }}
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-
-            </ul>
-
-            <!-- Right Side Of Navbar -->
-            <ul class="navbar-nav ml-auto">
-                <!-- Authentication Links -->
-                @guest
-                    @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
-                        </li>
-                    @endif
-                    
-                    @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
-                        </li>
-                    @endif
-                @else
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ url('book_create') }}">Įkelti naują knygą</a>
-                </li>
-                    <li class="nav-item dropdown">
-                        <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                            {{ Auth::user()->name }}
-                        </a>
-
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" href="{{ route('logout') }}"
-                               onclick="event.preventDefault();
-                                             document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                @endguest
-            </ul>
+<header class="section-header">
+    <section class="header-main border-bottom">
+        <div class="container-fluid pl-5 px-5">
+    <div class="row align-items-center">
+        <div class="col-lg-3 col-sm-4 col-md-4 col-5">
+        <a href="http://bootstrap-ecommerce.com" class="brand-wrap mb-0">
+            <img class="logo" src="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/images/logo.png">
+        </a> <!-- brand-wrap.// -->
         </div>
-    </div>
-</nav>
+        <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4 d-none d-md-block">
+                <form action="#" class="search">
+                    <div class="input-group w-100">
+                        <input type="text" class="form-control" style="width:55%;" placeholder="Search">
+                        <div class="input-group-append">
+                          <button class="btn btn-primary" type="submit">
+                            <i class="fa fa-search"></i>
+                          </button>
+                        </div>
+                    </div>
+                </form> <!-- search-wrap .end// -->
+        </div> <!-- col.// -->
+        <div class="col-lg-5 col-xl-4 col-sm-8 col-md-4 col-7">
+            <div class="d-flex justify-content-end">
+                <a href="#" class="widget-header mr-3">
+                    <div class="icon">
+                        <i class="icon-sm rounded-circle border fa fa-shopping-cart"></i>
+                        <span class="notify">0</span>
+                    </div>
+                </a>
+                <a href="#" class="widget-header mr-3">
+                    <div class="icon">
+                        <i class="icon-sm rounded-circle border fa fa-heart"></i>
+                    </div>
+                </a>
+    
+                <div class="widget-header dropdown">
+                    <a href="#" data-toggle="dropdown" class="dropdown-toggle" data-offset="20,10" aria-expanded="false">
+                        <div class="icon icon-sm rounded-circle border ">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <span class="sr-only">Profile actions</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(64px, 46px, 0px);">
+                        <a class="dropdown-item" href="#">Profile setting</a>
+                        <a class="dropdown-item" href="#">My orders</a>
+                        <hr class="dropdown-divider">
+                        <a class="dropdown-item" href="#">Log out</a>
+                    </div> <!--  dropdown-menu .// -->
+                </div>  <!-- widget-header .// -->
+    
+            
+            </div> <!-- widgets-wrap.// -->
+        </div> <!-- col.// -->
+    </div> <!-- row.// -->
+        </div> <!-- container.// -->
+    </section> <!-- header-main .// -->
+    
+    
+    <nav class="navbar navbar-expand-md navbar-main border-bottom">
+      <div class="container-fluid pl-5 px-5">
+              <form class="d-md-none my-2">
+                <div class="input-group">
+                    <input type="search" name="search" class="form-control" placeholder="Search" required="">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-secondary"> <i class="fas fa-search"></i> </button>
+                    </div>
+                </div>
+            </form>
+    
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dropdown6">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+    
+            <div class="collapse navbar-collapse" id="dropdown6">
+                  <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                      <a class="nav-link dropdown-toggle" href="http://example.com" data-toggle="dropdown"> All categories</a>
+                      <div class="dropdown-menu">
+                        <a class="dropdown-item" href="page-category.html">Foods and Drink</a>
+                        <a class="dropdown-item" href="page-category.html">Home interior</a>
+                        <a class="dropdown-item" href="page-category.html">Computer electronics</a>
+                        <a class="dropdown-item" href="page-category.html">Clothing</a>
+                        <a class="dropdown-item" href="page-category.html">Gardening and flowers</a>
+                        <a class="dropdown-item" href="page-category.html">Hand made items</a>
+                        <a class="dropdown-item" href="page-category.html">Smartphones</a>
+                        <a class="dropdown-item" href="page-category.html">Digital products</a>
+                      </div>
+                    </li>
+                    <li class="nav-item"> <a class="nav-link" href="page-deal.html">Hot deals</a>  </li>
+                    <li class="nav-item"> <a class="nav-link" href="page-blog.html">Markets</a>  </li>
+                    <li class="nav-item"> <a class="nav-link" href="page-blog.html">Blog</a>  </li>
+                  </ul>
+    
+                  <ul class="navbar-nav">
+                    <li class="nav-item"><a href="#" class="nav-link">My items</a></li>
+                    <li class="nav-item"><a href="#" class="btn btn-primary ml-md-4"><i class="fa fa-plus"></i> Post item </a></li>
+                  </ul>
+           </div> <!-- collapse .// -->
+      </div> <!-- container .// -->
+    </nav>
+    
+    </header> <!-- section-header.// -->

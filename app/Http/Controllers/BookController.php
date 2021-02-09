@@ -4,9 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Book;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BookController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except('index');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +30,7 @@ class BookController extends Controller
      */
     public function create()
     {
-        return view('book_create');
+            return view('book_create');
     }
 
     /**
@@ -35,7 +41,31 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Atliekam validacija
+        $request->validate([
+            'title' => 'required|min:5',
+            'author' => 'required|min:10',
+            'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'genre' => 'required',
+            'description' => 'required|min:20',
+        ]);
+        //ikeliam cover nuotrauka
+        $imageName = time().'.'.$request->cover->extension();  
+        $request->cover->storeAs('images', $imageName);
+        //pasiimam request reiksmes
+        $requestData = $request->all();
+        //pridedam trukstamas reiksmes, irasymui i DB
+        $requestData['cover'] = $imageName;
+        $requestData['user_id'] = Auth::id();
+        $requestData['check'] = "0";
+
+        //var_dump($requestData);
+        //irasom i duomenu baze
+        Book::create($requestData);
+        //gristam i pradini puslapi
+        //siunciam pranesima kad irasymas atliktas
+        return redirect()->route('index')
+        ->with('success','Book created successfully.');
     }
 
     /**

@@ -13,4 +13,8 @@ class Book extends Model
         'user_id','title', 'author', 'cover', 'genre', 'description',
     ];
 
+    public function genres(){
+        return $this->belongstoMany(Genre::class)
+        ->withTimestamps();
+    }
 }

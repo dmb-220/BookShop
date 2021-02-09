@@ -16,8 +16,12 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\BookController::class, 'index']);
-Route::get('/book_create', [App\Http\Controllers\BookController::class, 'create']);
-//Route::get('/post', ShowPosts::class);
+Route::resource('/', App\Http\Controllers\BookController::class);
 
-//Route::resource('book', BookController::class);
+Route::group(['middleware' => 'CheckRole:admin'], function () {
+
+    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index']);
+    
+    Route::resource('/genre', App\Http\Controllers\GenreController::class);
+
+});

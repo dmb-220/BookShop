@@ -3,9 +3,7 @@
         <div class="container-fluid pl-5 px-5">
     <div class="row align-items-center">
         <div class="col-lg-3 col-sm-4 col-md-4 col-5">
-        <a href="http://bootstrap-ecommerce.com" class="brand-wrap mb-0">
-            <img class="logo" src="https://bootstrap-ecommerce.com/bootstrap-ecommerce-html/images/logo.png">
-        </a> <!-- brand-wrap.// -->
+            <h2>BookShop</h2>
         </div>
         <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4 d-none d-md-block">
                 <form action="#" class="search">
@@ -38,14 +36,31 @@
                         <div class="icon icon-sm rounded-circle border ">
                             <i class="fa fa-user"></i>
                         </div>
-                        <span class="sr-only">Profile actions</span>
+                        <span class="sr-only">Profile</span>
                     </a>
+                    @guest
+                    <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(64px, 46px, 0px);">
+                        <a class="dropdown-item" href="{{ route('login') }}">{{ __('Login') }}</a>
+                        @if (Route::has('register'))
+                        <a class="dropdown-item" href="{{ route('register') }}">{{ __('Register') }}</a>
+                        @endif
+                    </div> <!--  dropdown-menu .// -->
+                    @else  
                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(64px, 46px, 0px);">
                         <a class="dropdown-item" href="#">Profile setting</a>
                         <a class="dropdown-item" href="#">My orders</a>
+                        <a class="dropdown-item" href="{{ url('admin') }}">Admin panel</a>
                         <hr class="dropdown-divider">
-                        <a class="dropdown-item" href="#">Log out</a>
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            {{ __('Logout') }}
+                        </a>
+
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                            @csrf
+                        </form>
                     </div> <!--  dropdown-menu .// -->
+                    @endguest
                 </div>  <!-- widget-header .// -->
     
             
@@ -72,28 +87,10 @@
             </button>
     
             <div class="collapse navbar-collapse" id="dropdown6">
-                  <ul class="navbar-nav mr-auto">
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="http://example.com" data-toggle="dropdown"> All categories</a>
-                      <div class="dropdown-menu">
-                        <a class="dropdown-item" href="page-category.html">Foods and Drink</a>
-                        <a class="dropdown-item" href="page-category.html">Home interior</a>
-                        <a class="dropdown-item" href="page-category.html">Computer electronics</a>
-                        <a class="dropdown-item" href="page-category.html">Clothing</a>
-                        <a class="dropdown-item" href="page-category.html">Gardening and flowers</a>
-                        <a class="dropdown-item" href="page-category.html">Hand made items</a>
-                        <a class="dropdown-item" href="page-category.html">Smartphones</a>
-                        <a class="dropdown-item" href="page-category.html">Digital products</a>
-                      </div>
-                    </li>
-                    <li class="nav-item"> <a class="nav-link" href="page-deal.html">Hot deals</a>  </li>
-                    <li class="nav-item"> <a class="nav-link" href="page-blog.html">Markets</a>  </li>
-                    <li class="nav-item"> <a class="nav-link" href="page-blog.html">Blog</a>  </li>
-                  </ul>
-    
+                  <ul class="navbar-nav mr-auto"></ul>
                   <ul class="navbar-nav">
                     <li class="nav-item"><a href="#" class="nav-link">My items</a></li>
-                    <li class="nav-item"><a href="#" class="btn btn-primary ml-md-4"><i class="fa fa-plus"></i> Post item </a></li>
+                    <li class="nav-item"><a href="{{ route('create') }}" class="btn btn-primary ml-md-4"><i class="fa fa-plus"></i> NEW Book</a></li>
                   </ul>
            </div> <!-- collapse .// -->
       </div> <!-- container .// -->

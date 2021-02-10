@@ -3,7 +3,7 @@
         <div class="container-fluid pl-5 px-5">
     <div class="row align-items-center">
         <div class="col-lg-3 col-sm-4 col-md-4 col-5">
-            <h2>BookShop</h2>
+            <a href="{{ url('/') }}"><h1>BookShop</h1></a>
         </div>
         <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4 d-none d-md-block">
                 <form action="#" class="search">
@@ -13,6 +13,7 @@
                           <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search"></i>
                           </button>
+                          <a href="{{ route('create') }}" class="btn btn-success"><i class="fa fa-plus"></i> New Book</a>
                         </div>
                     </div>
                 </form> <!-- search-wrap .end// -->
@@ -68,32 +69,5 @@
         </div> <!-- col.// -->
     </div> <!-- row.// -->
         </div> <!-- container.// -->
-    </section> <!-- header-main .// -->
-    
-    
-    <nav class="navbar navbar-expand-md navbar-main border-bottom">
-      <div class="container-fluid pl-5 px-5">
-              <form class="d-md-none my-2">
-                <div class="input-group">
-                    <input type="search" name="search" class="form-control" placeholder="Search" required="">
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary"> <i class="fas fa-search"></i> </button>
-                    </div>
-                </div>
-            </form>
-    
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#dropdown6">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-    
-            <div class="collapse navbar-collapse" id="dropdown6">
-                  <ul class="navbar-nav mr-auto"></ul>
-                  <ul class="navbar-nav">
-                    <li class="nav-item"><a href="#" class="nav-link">My items</a></li>
-                    <li class="nav-item"><a href="{{ route('create') }}" class="btn btn-primary ml-md-4"><i class="fa fa-plus"></i> NEW Book</a></li>
-                  </ul>
-           </div> <!-- collapse .// -->
-      </div> <!-- container .// -->
-    </nav>
-    
+    </section> <!-- header-main .// -->  
     </header> <!-- section-header.// -->

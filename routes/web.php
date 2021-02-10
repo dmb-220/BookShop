@@ -20,7 +20,11 @@ Route::resource('/', App\Http\Controllers\BookController::class);
 
 Route::group(['middleware' => 'CheckRole:admin'], function () {
 
-    Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index']);
+    Route::prefix('/admin')->group(function () {
+        Route::get('', [App\Http\Controllers\AdminController::class, 'index']);
+        Route::get('/create', [App\Http\Controllers\AdminController::class, 'create']);
+        Route::get('{admin}', [App\Http\Controllers\AdminController::class, 'show']);
+    });
     
     Route::resource('/genre', App\Http\Controllers\GenreController::class);
 

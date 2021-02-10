@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Middleware;
-
+use Illuminate\Support\Facades\Auth;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -17,17 +17,24 @@ class CheckRole
     public function handle(Request $request, Closure $next, string $role)
     {
 
-        //cia reik paprasta if ideti, nes arba admin arba user gali prieiti prie turinio
+        //User pakolkas nereikia
+        //ji atstoja prisijunges vartotojas
         $roles = [
             'admin' => '1',
-            'user' => '2',
+            //'user' => '2',
         ];
 
         $roleIds = $roles[$role] ?? '';
-
-        if(auth()->user()->role_id != $roleIds){
+        //reik tikrinti ar prisijunges, kitu atveju buna klaida del role_id
+        if(Auth::id()){
+            //jei prisijunges, patikrinam ar turi teises patekti i puslapi
+            if(auth()->user()->role_id != $roleIds){
+                abort(403);
+            }
+        }else{
             abort(403);
         }
+        
         return $next($request);
     }
 }

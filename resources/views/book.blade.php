@@ -176,5 +176,4 @@
     </section>
     <!-- ========================= SECTION CONTENT END// ========================= -->
 
-    @include('layouts.footer')
 @endsection

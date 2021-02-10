@@ -15,7 +15,7 @@ class GenreController extends Controller
     public function index()
     {
         return view('genre.index')
-        ->with('genres', Genre::all());
+        ->with('genres', Genre::simplepaginate(10));
     }
 
     /**
@@ -36,7 +36,17 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Atliekam validacija
+        $request->validate([
+            'genre' => 'required|min:3|max:255',
+        ]);
+
+        //irasom i duomenu baze
+        Genre::create($request->all());
+        //gristam i pradini puslapi
+        //siunciam pranesima kad irasymas atliktas
+        return redirect()->route('genre.index')
+        ->with('success','Genre created successfully.');
     }
 
     /**
@@ -58,7 +68,7 @@ class GenreController extends Controller
      */
     public function edit(Genre $genre)
     {
-        //
+        return view('genre.edit', compact('genre'));
     }
 
     /**
@@ -69,8 +79,18 @@ class GenreController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Genre $genre)
-    {
-        //
+    {//Atliekam validacija
+        $request->validate([
+            'genre' => 'required|min:3|max:255',
+        ]);
+
+        //irasom i duomenu baze
+        $genre->update($request->all());
+        //gristam i pradini puslapi
+        //siunciam pranesima kad irasymas atliktas
+        return redirect()->route('genre.index')
+        ->with('success','Genre updated successfully.');
+
     }
 
     /**
@@ -81,6 +101,10 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        //
+        $genre->delete();
+        //gristam i pradini puslapi
+        //siunciam pranesima kad irasymas atliktas
+        return redirect()->route('genre.index')
+        ->with('success','Genre deleted successfully.');
     }
 }

@@ -43,13 +43,14 @@
                         <div class="filter-content collapse show" id="collapse_1" style="">
                             <div class="card-body"> 
                                 <ul class="list-menu">
-                                <li><a href="{{ url('genre') }}">Genre  </a></li>
-                                <li><a href="{{ url('author') }}">Author </a></li>
-                                <li><a href="#">Book verify </a></li>
-                                <li><a href="#">Clothes  </a></li>
-                                <li><a href="#">Home items </a></li>
-                                <li><a href="#">Animals</a></li>
-                                <li><a href="#">People </a></li>
+                                    <li><a href="{{ url('book') }}">Books </a></li>
+                                    <li><a href="{{ url('genre') }}">Genres </a></li>
+                                    <li><a href="{{ url('author') }}">Authors </a></li>
+                                    <li><a href="#">Book verify </a></li>
+                                    <li><a href="#">Clothes  </a></li>
+                                    <li><a href="#">Home items </a></li>
+                                    <li><a href="#">Animals</a></li>
+                                    <li><a href="#">People </a></li>
                                 </ul>
                             </div>
                         </div>

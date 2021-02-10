@@ -33,7 +33,7 @@
                         <div class="form-group row"> 
                             <label class="col-md-4 col-form-label text-md-right" for="genre">Genre</label>  
                             <div class="col-md-8">
-                                <select name='genre[]' class="form-control" multiple>
+                                <select name='genre[]' class="custom-select form-control" multiple>
                                     @forelse ($genres as $genre)
                                     <option value="{{ $genre->id }}">{{ $genre->genre }}</option>
                                     @empty  

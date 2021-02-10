@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
-Route::resource('/', App\Http\Controllers\BookController::class);
+Route::resource('/', App\Http\Controllers\BookShopController::class);
 
 Route::group(['middleware' => 'CheckRole:admin'], function () {
 
@@ -26,6 +26,8 @@ Route::group(['middleware' => 'CheckRole:admin'], function () {
         Route::get('{admin}', [App\Http\Controllers\AdminController::class, 'show']);
     });
     
+    Route::resource('/book', App\Http\Controllers\BookController::class);
     Route::resource('/genre', App\Http\Controllers\GenreController::class);
+    //Route::resource('/author', App\Http\Controllers\AuthorController::class);
 
 });

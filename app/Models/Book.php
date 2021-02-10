@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -20,9 +21,13 @@ class Book extends Model
     }
 
     public function authors(){
-        return $this->belongstoMany(Genre::class, 'book_author', 
+        return $this->belongstoMany(Author::class, 'book_author', 
         'book_id', 'author_id')
         ->withTimestamps();
     }
+
+    public function created_at_difference(){
+           return Carbon::createFromTimestamp(strtotime($this->created_at))->diff(Carbon::now())->days;
+      } 
 
 }

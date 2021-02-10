@@ -1,5 +1,5 @@
 <!-- ========================= FOOTER ========================= -->
-<footer class="section-footer border-top">
+<footer class="section-footer border-top padding-y">
     <div class="container-fluid pl-5 px-5">
         <section class="footer-bottom border-top row">
             <div class="col-md-2">

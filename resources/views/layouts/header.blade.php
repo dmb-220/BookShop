@@ -1,4 +1,4 @@
-<header class="section-header">
+<header class="section-heading">
     <section class="header-main border-bottom">
         <div class="container-fluid pl-5 px-5">
     <div class="row align-items-center">

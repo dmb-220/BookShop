@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Book;
+use App\Models\Genre;
+use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,7 +32,8 @@ class BookController extends Controller
      */
     public function create()
     {
-            return view('book_create');
+            return view('book_create')
+            ->with('genres', Genre::all());
     }
 
     /**
@@ -46,9 +49,10 @@ class BookController extends Controller
             'title' => 'required|min:5',
             'author' => 'required|min:10',
             'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'genre' => 'required',
+            'genre' => 'required|array',
             'description' => 'required|min:20',
         ]);
+
         //ikeliam cover nuotrauka
         $imageName = time().'.'.$request->cover->extension();  
         $request->cover->storeAs('images', $imageName);
@@ -58,10 +62,25 @@ class BookController extends Controller
         $requestData['cover'] = $imageName;
         $requestData['user_id'] = Auth::id();
         $requestData['check'] = "0";
+        //tikrinam vienas Autorius ar keli
+        //atskiriame kableliu
+        $authors = explode(",", $request->author);
 
-        //var_dump($requestData);
+        //var_dump($authors);
         //irasom i duomenu baze
-        Book::create($requestData);
+        $book_id = Book::create($requestData);
+        //knygai priskiriame zanrus
+        $book_id->genres()->sync($request->genre);
+
+        //Irasom autorius
+        foreach($authors as $author){
+            $author_data = Author::updateOrCreate(['name' => $author]);
+            //pasiimam autoriu ID
+            $author_id[] = $author_data->id;
+        }
+
+        //knygai priskiriame autorius
+        $book_id->authors()->sync($author_id);
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
         return redirect()->route('index')

@@ -4,10 +4,8 @@
         <aside class="col-md-3">
             <nav class="card">
                 <ul class="menu-category">
-                    @foreach($genres as $genre) 
-                    @if(count($genre->books) > 0)          
+                    @foreach($genres as $genre)     
                     <li><a href="#">{{$genre->genre}} </a></li>
-                    @endif
                     @endforeach
                 </ul>
             </nav>

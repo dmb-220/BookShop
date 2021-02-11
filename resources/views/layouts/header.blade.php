@@ -13,7 +13,7 @@
                           <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search"></i>
                           </button>
-                          <a href="{{ route('create') }}" class="btn btn-success"><i class="fa fa-plus"></i> New Book</a>
+                          <a href="{{ route('shop.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> New Book</a>
                         </div>
                     </div>
                 </form> <!-- search-wrap .end// -->

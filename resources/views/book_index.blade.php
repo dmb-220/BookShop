@@ -27,12 +27,12 @@
                         </div> <!-- img-wrap.// -->
                         <figcaption class="info-wrap border-top">
                             @foreach($book->authors as $author)
-                                <h6>{{ $author->name }},</h6>
+                                    {{ $author->name }}{{ $loop->last ? '' : ','}}
                                 @endforeach
-                                <a href="{{ route('book.show', $book->id) }}" class="title"><h5> {{ $book->title }} </h5></a>
+                                <a href="{{ route('shop.edit', $book->id) }}" class="title"><h5> {{ $book->title }} </h5></a>
                                 <h6>
                                 @foreach($book->genres as $genre)
-                                {{ $genre->genre }},
+                                {{ $genre->genre }}{{ $loop->last ? '' : ','}}
                                 @endforeach
                                 </h6>
                                 <hr>
@@ -63,6 +63,5 @@
     
     </div> <!-- container .//  -->
     </section>
-    <!-- ========================= SECTION CONTENT END// ========================= -->
 
 @endsection

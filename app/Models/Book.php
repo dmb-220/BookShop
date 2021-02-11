@@ -15,19 +15,16 @@ class Book extends Model
     ];
 
     public function genres(){
-        return $this->belongstoMany(Genre::class, 'book_genre', 
-        'book_id', 'genre_id')
+        return $this->belongsToMany(Genre::class, 'book_genre')
         ->withTimestamps();
     }
 
     public function authors(){
-        return $this->belongstoMany(Author::class, 'book_author', 
-        'book_id', 'author_id')
+        return $this->belongsToMany(Author::class, 'book_author')
         ->withTimestamps();
     }
 
     public function created_at_difference(){
-           return Carbon::createFromTimestamp(strtotime($this->created_at))->diff(Carbon::now())->days;
-      } 
-
+        return Carbon::createFromTimestamp(strtotime($this->created_at))->diff(Carbon::now())->days;
+   } 
 }

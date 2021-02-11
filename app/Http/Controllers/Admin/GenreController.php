@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;
@@ -14,7 +15,7 @@ class GenreController extends Controller
      */
     public function index()
     {
-        return view('genre.index')
+        return view('admin.genre.index')
         ->with('genres', Genre::simplepaginate(10));
     }
 
@@ -25,7 +26,7 @@ class GenreController extends Controller
      */
     public function create()
     {
-        return view('genre.create');
+        return view('admin.genre.create');
     }
 
     /**
@@ -45,7 +46,7 @@ class GenreController extends Controller
         Genre::create($request->all());
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('genre.index')
+        return redirect()->route('admin.genre.index')
         ->with('success','Genre created successfully.');
     }
 
@@ -57,7 +58,7 @@ class GenreController extends Controller
      */
     public function show(Genre $genre)
     {
-        //
+        
     }
 
     /**
@@ -68,7 +69,7 @@ class GenreController extends Controller
      */
     public function edit(Genre $genre)
     {
-        return view('genre.edit', compact('genre'));
+        return view('admin.genre.edit', compact('genre'));
     }
 
     /**
@@ -88,7 +89,7 @@ class GenreController extends Controller
         $genre->update($request->all());
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('genre.index')
+        return redirect()->route('admin.genre.index')
         ->with('success','Genre updated successfully.');
 
     }
@@ -104,7 +105,7 @@ class GenreController extends Controller
         $genre->delete();
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('genre.index')
+        return redirect()->route('admin.genre.index')
         ->with('success','Genre deleted successfully.');
     }
 }

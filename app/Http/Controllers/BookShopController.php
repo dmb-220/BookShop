@@ -22,11 +22,19 @@ class BookShopController extends Controller
      */
     public function index()
     {
-        return view('book')
-        ->with('books', 
-        Book::where('check', NULL)
+        //Book::with('authors', 'genres', 'reviews.author')->where('slug', $slug)->firstOrFail();
+        $books = Book::where('check', NULL)
         ->orderBy('created_at', 'desc')
-        ->simplepaginate(25));
+        ->simplepaginate(25);
+
+        $genres = Genre::with('books')->get();
+        //$genres = Book::has('genres', '>=', 1)->get();
+        //var_dump($genres);
+
+        return view('book')
+        ->with('books', $books)
+        ->with('genres', $genres); 
+        
     }
 
     /**
@@ -56,6 +64,13 @@ class BookShopController extends Controller
             'genre' => 'required|array',
             'description' => 'required|min:20',
         ]);
+
+        /*
+        Book::create([
+            ...$request->validated(),
+            'uploaded_by' => auth()->id(),
+        ]);
+        */
 
         //ikeliam cover nuotrauka
         $imageName = time().'.'.$request->cover->extension();  

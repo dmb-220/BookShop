@@ -11,12 +11,6 @@
 
     @include('layouts.meniu_slider')
 <section class="section-content padding-y">  
-    <div class="icontext">
-        <div class="icon icon-sm rounded-circle bg-light">
-            <i class="fa fa-bell"></i>
-            <span class="notify">3</span>
-        </div>
-    </div>
     <div class="container-fluid pl-5 px-5">        
     <div class="row">    
             <div class="row">
@@ -28,49 +22,33 @@
                             @if ($book->created_at_difference() <= 7)
                             <span class="badge badge-danger"> NEW </span>
                             @endif
-                            <img src="{{ asset("storage/".$book->cover) }}">
-                            <div class="btn-overlay">
-                                @foreach($book->authors as $author)
-                                {{ $author->name }},
-                                @endforeach
-                            </div>
+                            <img class="img-lg" src="{{ asset("storage/".$book->cover) }}">
+                            <a class="btn-overlay" href="#"><i class="fa fa-plus"></i> Add Wish List</a>
                         </div> <!-- img-wrap.// -->
-                        <figcaption class="info-wrap">
-                            <div class="fix-height">
-                                <a href="{{ route('book.show', $book->id) }}" class="title"><h4> {{ $book->title }} </h4></a>
+                        <figcaption class="info-wrap border-top">
+                            @foreach($book->authors as $author)
+                                <h6>{{ $author->name }},</h6>
+                                @endforeach
+                                <a href="{{ route('book.show', $book->id) }}" class="title"><h5> {{ $book->title }} </h5></a>
                                 <h6>
                                 @foreach($book->genres as $genre)
                                 {{ $genre->genre }},
                                 @endforeach
                                 </h6>
+                                <hr>
                                 <!-- vienoje eiluteje rikiavimas prie vieno ir kitos puses -->
-                                <div class="row">
-                                    <div class="col-md-6 text-center">
-                                        <span class="float-md-left">
-                                            <div class="rating-wrap mb-3">
-                                                <ul class="rating-stars">
-                                                    <li style="width:80%" class="stars-active"> 
-                                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                    </li>
-                                                    <li>
-                                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> <i class="fa fa-star"></i> 
-                                                        <i class="fa fa-star"></i> 
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </span>
-                                    </div>
-                                    <div class="col-md-6 text-center">
-                                        <span class="float-md-right">
-                                            <span class="price">$12</span>
-                                            <del class="price-old">$19</del>
-                                        </span>
-                                    </div>
+                                <div class="mt-2">
+                                        <span class="price">$12.99</span>
+                                        <small class="price-old">$14.99</small>
+                                    <ul class="rating-stars float-right">
+                                        <li style="width:80%" class="stars-active">
+                                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                        </li>
+                                        <li>
+                                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                                        </li>
+                                    </ul>
                                 </div>
-                            </div>
                         </figcaption>
                     </figure>
                 </div> <!-- col.// -->

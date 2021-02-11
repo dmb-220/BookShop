@@ -33,11 +33,20 @@
                 </a>
     
                 <div class="widget-header dropdown">
-                    <a href="#" data-toggle="dropdown" class="dropdown-toggle" data-offset="20,10" aria-expanded="false">
-                        <div class="icon icon-sm rounded-circle border ">
-                            <i class="fa fa-user"></i>
+                    <a href="#" data-toggle="dropdown" data-offset="20,10" aria-expanded="false">
+                        <div class="icontext">
+                            <div class="icon">
+                                <i class="icon-sm rounded-circle border fa fa-user"></i>
+                            </div>
+                            <div class="text">
+                                @guest
+                                <small class="text-muted">Sign in | Join</small>
+                                @else
+                                <small class="text-muted">Profile | Logout</small>
+                                @endguest
+                                <div>My account <i class="fa fa-caret-down"></i> </div>
+                            </div>
                         </div>
-                        <span class="sr-only">Profile</span>
                     </a>
                     @guest
                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(64px, 46px, 0px);">

@@ -18,7 +18,9 @@ class CreateBooksTable extends Migration
             $table->string('title');
             $table->string('cover');
             $table->text('description');
-            $table->string('check');
+            $table->float('price');
+            $table->string('discount');
+            $table->string('check')->default('0');
             $table->timestamps();
         });
     }

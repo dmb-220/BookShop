@@ -11,9 +11,10 @@
                 <span  class="px-2">Street name 123, Avanue abc</span>
             </div>
             <div class="col-md-2 text-md-right text-muted">
-                <i class="fab fa-lg fa-cc-visa"></i>
-                <i class="fab fa-lg fa-cc-paypal"></i>
-                <i class="fab fa-lg fa-cc-mastercard"></i>
+                    <a class="btn btn-icon btn-light" title="Facebook" target="_blank" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-icon btn-light" title="Instagram" target="_blank" href="#"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-icon btn-light" title="Youtube" target="_blank" href="#"><i class="fab fa-youtube"></i></a>
+                    <a class="btn btn-icon btn-light" title="Twitter" target="_blank" href="#"><i class="fab fa-twitter"></i></a>
             </div>
         </section>
     </div><!-- //container -->

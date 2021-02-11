@@ -4,16 +4,11 @@
         <aside class="col-md-3">
             <nav class="card">
                 <ul class="menu-category">
-                    <li><a href="#">Best clothes</a></li>
-                    <li><a href="#">Automobiles</a></li>
-                    <li><a href="#">Home interior</a></li>
-                    <li><a href="#">Best clothes</a></li>
-                    <li><a href="#">Automobiles</a></li>
-                    <li><a href="#">Home interior</a></li>
-                    <li><a href="#">Home interior</a></li>
-                    <li><a href="#">Home interior</a></li>
-                    <li><a href="#">Home interior</a></li>
-                    <li><a href="#">Home interior</a></li>
+                    @foreach($genres as $genre) 
+                    @if(count($genre->books) > 0)          
+                    <li><a href="#">{{$genre->genre}} </a></li>
+                    @endif
+                    @endforeach
                 </ul>
             </nav>
         </aside> <!-- col.// -->

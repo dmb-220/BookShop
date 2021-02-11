@@ -54,6 +54,9 @@
                                 </div>
                                 <p>{{$book->description}}</p>
                                 <hr>
+                                @if (Auth::id())
+                                <button type="button" class="btn  btn-danger" data-toggle="modal" data-target="#report"> Report book </button>
+                                @endif
                                 <a href="#" class="btn  btn-primary"> Add Wish List </a>
                                 <a href="#" class="btn  btn-outline-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
                             </article>
@@ -63,6 +66,43 @@
             </div>
         </div>
 
+        <div class="modal fade" id="report" tabindex="-1" role="dialog" aria-labelledby="Report Book" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Report book</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                    @if(Auth::id() && !$book->report)
+                    <form action="{{ route('report.store') }}" method="POST">
+                        @csrf
+                    <div class="form-group">
+                        <textarea name="report" class="form-control" rows="3"></textarea>
+                        <small class="form-text text-muted"> Maximum character is 250 letters </small>
+                        @if ($errors->has('report'))
+                            <span class="text-danger">{{ $errors->first('report') }}</span>
+                        @endif
+                        <input type="hidden" name="book_id" value="{{ $book->id }}" />
+                    </div>
+                    <button type="submit" class="btn btn-sm btn-success btn-block"> Report </button>
+                    </form>
+                    @else
+                    You have submitted an inappropriate book report
+                    <div class="alert alert-success">
+                        <p>{{ $book->report->report }}</p>
+                    </div>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
         <hr>
 
         <div class="row">  
@@ -70,7 +110,7 @@
                 <article class="box mb-3">
                 <form action="{{ route('review.store') }}" method="POST">
                     @csrf
-                <div class="form-group">
+                <div class="form-group row">
                     <label>Book review</label>
                     <textarea name="reviews" class="form-control" rows="3"></textarea>
                     <small class="form-text text-muted"> Maximum character is 250 letters </small>

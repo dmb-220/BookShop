@@ -33,6 +33,7 @@ Route::group(['middleware' => 'CheckRole:admin'], function () {
     Route::resource('abook', App\Http\Controllers\Admin\BookController::class);
     Route::resource('genre', App\Http\Controllers\Admin\GenreController::class);
     Route::resource('review', App\Http\Controllers\ReviewController::class);
+    Route::resource('report', App\Http\Controllers\ReportController::class);
     Route::resource('author', App\Http\Controllers\AuthorController::class);
 
 });

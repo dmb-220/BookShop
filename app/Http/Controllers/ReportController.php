@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Review;
+use App\Models\Report;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-class ReviewController extends Controller
+class ReportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -36,9 +35,9 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //Atliekam validacija
-        $request->validate([
-            'reviews' => 'required|min:10|max:250',
+         //Atliekam validacija
+         $request->validate([
+            'report' => 'required|min:10|max:250',
             'book_id' => 'required',
         ]);
 
@@ -46,21 +45,21 @@ class ReviewController extends Controller
         $requestData['user_id'] = Auth::id();
 
         //irasom i duomenu baze
-        Review::create($requestData);
+        Report::create($requestData);
 
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
         return redirect()->route('book.show', $request->book_id)
-        ->with('success','Review created successfully.');
+        ->with('success','Report created successfully.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Review  $review
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function show(Review $review)
+    public function show(Report $report)
     {
         //
     }
@@ -68,10 +67,10 @@ class ReviewController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Review  $review
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function edit(Review $review)
+    public function edit(Report $report)
     {
         //
     }
@@ -80,10 +79,10 @@ class ReviewController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Review  $review
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Review $review)
+    public function update(Request $request, Report $report)
     {
         //
     }
@@ -91,17 +90,11 @@ class ReviewController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Review  $review
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Review $review)
+    public function destroy(Report $report)
     {
-        //reik apsaugos, kad is isores negaliu sukurti uzklausa ir trinti reviews
-        //tikrinti ar  review autorius nori ji istrinti
-         $review->delete();
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('book.show', $request->book_id)
-        ->with('success','Review deleted successfully.');
+        //
     }
 }

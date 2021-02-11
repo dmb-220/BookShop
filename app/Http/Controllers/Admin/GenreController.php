@@ -16,7 +16,7 @@ class GenreController extends Controller
     public function index()
     {
         return view('admin.genre.index')
-        ->with('genres', Genre::simplepaginate(10));
+        ->with('genres', Genre::paginate(10));
     }
 
     /**

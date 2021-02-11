@@ -23,11 +23,11 @@ class BookController extends Controller
     {
         $book = Book::where('check', NULL)
         ->orderBy('created_at', 'desc')
-        ->simplepaginate(25);
-        //var_dump($books);
+        ->paginate(25);
 
-        $genre = Genre::has('books', '>=', 1)->get();
-        //var_dump($genres);
+        $genre = Genre::has('books', '>=', 1)
+        ->limit(10)
+        ->get();
 
         return view('book_index')
         ->with('books', $book)
@@ -43,7 +43,8 @@ class BookController extends Controller
     public function create()
     {
             return view('user.book_create')
-            ->with('genres', Genre::all());
+            ->with('genres', Genre::orderBy('genre', 'asc')
+            ->get());
     }
 
     /**
@@ -62,13 +63,6 @@ class BookController extends Controller
             'genre' => 'required|array',
             'description' => 'required|min:20',
         ]);
-
-        /*
-        Book::create([
-            ...$request->validated(),
-            'uploaded_by' => auth()->id(),
-        ]);
-        */
 
         //ikeliam cover nuotrauka
         $imageName = time().'.'.$request->cover->extension();  
@@ -113,9 +107,6 @@ class BookController extends Controller
     public function show(Book $book)
     {
         return view('book_view', compact('book'));
-        //return view('book_view')
-        //->with('book', Book::where('id', $book)
-        //->firstOrFail());
     }
 
     /**

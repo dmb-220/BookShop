@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">New book create</div>
                 <div class="card-body">
-                    <form action="{{ route('shop.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('book.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label text-md-right" for="title">Title</label>   

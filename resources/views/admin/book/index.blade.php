@@ -42,10 +42,10 @@
 
                 <aside class="col-sm-3">
                     <div class="info-aside">
-                        <a href="{{ route('book.edit', $book->id) }}" class="btn btn-sm btn-success btn-block"> Confirm </a>
-                        <a href="{{ route('book.show', $book->id) }}" class="btn btn-sm btn-info btn-block"> Details </a>
-                        <a href="{{ route('book.edit', $book->id) }}" class="btn btn-sm btn-primary btn-block"> Edit </a>
-                        <a href="{{-- route('book.delete') --}}" class="btn btn-sm btn-danger btn-block"> Delete </a>
+                        <a href="{{ route('abook.edit', $book->id) }}" class="btn btn-sm btn-success btn-block"> Confirm </a>
+                        <a href="{{ route('abook.show', $book->id) }}" class="btn btn-sm btn-info btn-block"> Details </a>
+                        <a href="{{ route('abook.edit', $book->id) }}" class="btn btn-sm btn-primary btn-block"> Edit </a>
+                        <a href="{{-- route('abook.delete') --}}" class="btn btn-sm btn-danger btn-block"> Delete </a>
                     </div>
                 </aside>
 

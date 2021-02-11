@@ -27,4 +27,12 @@ class Book extends Model
     public function created_at_difference(){
         return Carbon::createFromTimestamp(strtotime($this->created_at))->diff(Carbon::now())->days;
    } 
+
+   public function reviews(){
+       return $this->hasMany(Review::class);
+   }
+
+   public function user(){
+    return $this->belongsTo(User::class);
+}
 }

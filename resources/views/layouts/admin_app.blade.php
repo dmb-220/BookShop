@@ -10,6 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
+    <script src="https://kit.fontawesome.com/e1639eb0e9.js" crossorigin="anonymous"></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="{{ asset('js/my.js') }}" defer></script>
 
@@ -43,7 +44,7 @@
                         <div class="filter-content collapse show" id="collapse_1" style="">
                             <div class="card-body"> 
                                 <ul class="list-menu">
-                                    <li><a href="{{ url('book') }}">Books </a></li>
+                                    <li><a href="{{ url('abook') }}">Books </a></li>
                                     <li><a href="{{ url('genre') }}">Genres </a></li>
                                     <li><a href="{{ url('author') }}">Authors </a></li>
                                     <li><a href="#">Book verify </a></li>

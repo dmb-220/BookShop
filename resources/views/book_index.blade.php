@@ -29,7 +29,7 @@
                             @foreach($book->authors as $author)
                                     {{ $author->name }}{{ $loop->last ? '' : ','}}
                                 @endforeach
-                                <a href="{{ route('shop.edit', $book->id) }}" class="title"><h5> {{ $book->title }} </h5></a>
+                                <a href="{{ route('book.show', $book->id) }}" class="title"><h5> {{ $book->title }} </h5></a>
                                 <h6>
                                 @foreach($book->genres as $genre)
                                 {{ $genre->genre }}{{ $loop->last ? '' : ','}}

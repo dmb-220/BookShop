@@ -59,7 +59,12 @@
                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(64px, 46px, 0px);">
                         <a class="dropdown-item" href="#">Profile setting</a>
                         <a class="dropdown-item" href="#">My orders</a>
-                        <a class="dropdown-item" href="{{ url('admin') }}">Admin panel</a>
+                        @if (Auth::user()->isAdmin())
+                        <a class="dropdown-item" href="{{ route('admin_index') }}">Admin panel</a>
+                        @else
+                        <a class="dropdown-item" href="{{ route('admin_index') }}">User panel</a>
+                        @endif
+                        
                         <hr class="dropdown-divider">
                         <a class="dropdown-item" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

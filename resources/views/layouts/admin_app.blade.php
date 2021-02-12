@@ -48,8 +48,8 @@
                                     <li><a href="{{ url('genre') }}">Genres </a></li>
                                     <li><a href="{{ url('author') }}">Authors </a></li>
                                     <li><a href="#">Book verify </a></li>
-                                    <li><a href="#">Clothes  </a></li>
-                                    <li><a href="#">Home items </a></li>
+                                    <li><a href="#">Reviews Books </a></li>
+                                    <li><a href="#">Reports </a></li>
                                     <li><a href="#">Animals</a></li>
                                     <li><a href="#">People </a></li>
                                 </ul>

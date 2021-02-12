@@ -17,12 +17,18 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\BookController::class, 'index']);
+
 Route::resource('book', App\Http\Controllers\BookController::class);
 
+Route::resource('review', App\Http\Controllers\ReviewController::class);
+Route::resource('report', App\Http\Controllers\ReportController::class);
+//suskirstyti admin
+
+//suskirtyti user
 Route::group(['middleware' => 'CheckRole:admin'], function () {
 
     Route::prefix('admin')->group(function () {
-        Route::get('', [App\Http\Controllers\Admin\AdminController::class, 'index']);
+        Route::get('', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin_index');
         Route::get('create', [App\Http\Controllers\Admin\AdminController::class, 'create']);
         Route::get('{admin}', [App\Http\Controllers\Admin\AdminController::class, 'show']);
 
@@ -32,8 +38,6 @@ Route::group(['middleware' => 'CheckRole:admin'], function () {
     
     Route::resource('abook', App\Http\Controllers\Admin\BookController::class);
     Route::resource('genre', App\Http\Controllers\Admin\GenreController::class);
-    Route::resource('review', App\Http\Controllers\ReviewController::class);
-    Route::resource('report', App\Http\Controllers\ReportController::class);
     Route::resource('author', App\Http\Controllers\AuthorController::class);
 
 });

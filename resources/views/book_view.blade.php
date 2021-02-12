@@ -76,7 +76,8 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                    @if(Auth::id() && !$book->report)
+                    @auth
+                    @if(!$book->report)
                     <form action="{{ route('report.store') }}" method="POST">
                         @csrf
                     <div class="form-group">
@@ -95,6 +96,7 @@
                         <p>{{ $book->report->report }}</p>
                     </div>
                     @endif
+                    @endauth
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -113,11 +115,10 @@
                 <div class="form-group row">
                     <label>Book review</label>
                     <textarea name="reviews" class="form-control" rows="3"></textarea>
-                    <small class="form-text text-muted"> Maximum character is 250 letters </small>
-                    @if ($errors->has('reviews'))
-                        <span class="text-danger">{{ $errors->first('reviews') }}</span>
-                    @endif
                     <input type="hidden" name="book_id" value="{{ $book->id }}" />
+                    @if ($errors->has('reviews'))
+                    <span class="text-danger">{{ $errors->first('reviews') }}</span>
+                @endif
                 </div>
                 <button type="submit" class="btn btn-sm btn-success btn-block"> Write review </button>
                 </form>

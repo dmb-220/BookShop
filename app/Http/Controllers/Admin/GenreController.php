@@ -102,10 +102,15 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        $genre->delete();
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('admin.genre.index')
-        ->with('success','Genre deleted successfully.');
+        if(!$genre->books->count()){
+            $genre->delete();
+            //gristam i pradini puslapi
+            //siunciam pranesima kad irasymas atliktas
+            return redirect()->route('genre.index')
+            ->with('success','Genre deleted successfully.');
+        }else{
+            return redirect()->route('genre.index')
+            ->with('success','Genre deleted fail. Create Book for this genre!');
+        }
     }
 }

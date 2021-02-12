@@ -19,6 +19,7 @@
         <tr>
             <th scope="col"></th>
           <th scope="col">Genre</th>
+          <th scope="col">Count</th>
           <th scope="col">Last modified</th>
           <th scope="col"></th>
         </tr>
@@ -28,13 +29,16 @@
     <tr>
         <td>{{ $genre->id }}</td>
         <td>{{ $genre->genre }}</td>
-        <td>{{ $genre->created_at }}</td>
+        <td>{{ $genre->books->count() }}</td>
+        <td>{{ \Carbon\Carbon::parse($genre->created_at)->format('Y-m-d') }}</td>
         <td class="text-right">
             <form action="{{ route('genre.destroy', $genre->id)}}" method="post">
                 @csrf
                 @method('DELETE')
                 <a href="{{ route('genre.edit', $genre->id)}}" class="btn btn-info btn-sm">Edit</a>
+                @if(!$genre->books->count())
                 <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                @endif
             </form>
         </td>
     </tr>                 

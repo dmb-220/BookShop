@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Book extends Model
 {
@@ -20,7 +21,7 @@ class Book extends Model
     }
 
     public function authors(){
-        return $this->belongsToMany(Author::class, 'book_author')
+        return $this->belongsToMany(Author::class, 'author_book')
         ->withTimestamps();
     }
 
@@ -33,7 +34,8 @@ class Book extends Model
    }
 
    public function report(){
-    return $this->hasOne(Report::class);
+    return $this->hasOne(Report::class)
+    ->where('user_id', Auth::id());
 }
 
    public function user(){

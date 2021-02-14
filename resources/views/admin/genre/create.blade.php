@@ -6,7 +6,7 @@
         Create genre
     </header >
     <div class="card-body">
-        <form action="{{ route('genre.store') }}" method="POST">
+        <form action="{{ route('admin.genres.store') }}" method="POST">
             @csrf
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right" for="title">Genre name:</label>  

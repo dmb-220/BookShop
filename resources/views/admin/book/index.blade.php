@@ -42,10 +42,23 @@
 
                 <aside class="col-sm-3">
                     <div class="info-aside">
-                        <a href="{{ route('abook.edit', $book->id) }}" class="btn btn-sm btn-success btn-block"> Confirm </a>
-                        <a href="{{ route('abook.show', $book->id) }}" class="btn btn-sm btn-info btn-block"> Details </a>
-                        <a href="{{ route('abook.edit', $book->id) }}" class="btn btn-sm btn-primary btn-block"> Edit </a>
-                        <a href="{{-- route('abook.delete') --}}" class="btn btn-sm btn-danger btn-block"> Delete </a>
+                        <a href="{{ route('admin.books.show', $book->id) }}" class="btn btn-sm btn-info btn-block"> Details </a>
+                        <a href="{{ route('admin.books.edit', $book->id) }}" class="btn btn-sm btn-primary btn-block"> Edit </a>
+                        <br>
+                        @if(!$book->check)
+                        <form action="{{ route('admin.books.update', $book->id)}}" method="post">
+                            @csrf
+                            @method('PATCH')
+                            <button class="btn btn-sm btn-success btn-block" onclick="return confirm('Verify book?');" type="submit">Confirm</button>
+                        </form>
+                        @endif
+                        <br>
+                        <form action="{{ route('admin.books.destroy', $book->id)}}" method="post">
+                            @csrf
+                            @method('DELETE')
+                            <button class="btn btn-sm btn-danger btn-block" onclick="return confirm('Delete book?');" type="submit">Delete</button>
+                        </form>
+
                     </div>
                 </aside>
 

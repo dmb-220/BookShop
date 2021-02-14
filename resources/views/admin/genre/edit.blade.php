@@ -6,7 +6,7 @@
         Edit genre
     </header >
     <div class="card-body">
-        <form action="{{ route('genre.update', $genre->id) }}" method="POST">
+        <form action="{{ route('admin.genres.update', $genre->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="form-group row">

@@ -24,12 +24,12 @@
                             @endif
                             <img class="img-lg" src="{{ asset("storage/".$book->cover) }}">
                             <a class="btn-overlay" href="#"><i class="fa fa-plus"></i> Add Wish List</a>
-                        </div> <!-- img-wrap.// -->
+                        </div>
                         <figcaption class="info-wrap border-top">
                             @foreach($book->authors as $author)
                                     {{ $author->name }}{{ $loop->last ? '' : ','}}
                                 @endforeach
-                                <a href="{{ route('book.show', $book->id) }}" class="title"><h5> {{ $book->title }} </h5></a>
+                                <a href="{{ route('books.show', $book->id) }}" class="title"><h5> {{ $book->title }} </h5></a>
                                 <h6>
                                 @foreach($book->genres as $genre)
                                 {{ $genre->genre }}{{ $loop->last ? '' : ','}}

@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+use App\Http\Controllers\Controller;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -15,7 +16,8 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.review.index')
+        ->with('reviews', Review::paginate(20));
     }
 
     /**
@@ -36,23 +38,7 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //Atliekam validacija
-        $request->validate([
-            'reviews' => 'required|min:10|max:250',
-            'rating' => 'required|numeric|min:1|max:5',
-            'book_id' => 'required',
-        ]);
 
-        $requestData = $request->all();
-        $requestData['user_id'] = Auth::id();
-
-        //irasom i duomenu baze
-        Review::create($requestData);
-
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('books.show', $request->book_id)
-        ->with('success','Review created successfully.');
     }
 
     /**
@@ -63,7 +49,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        //
+        return view('admin.review.show', compact('review'));
     }
 
     /**
@@ -95,14 +81,12 @@ class ReviewController extends Controller
      * @param  \App\Models\Review  $review
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, Review $review)
+    public function destroy(Review $review)
     {
-        //reik apsaugos, kad is isores negaliu sukurti uzklausa ir trinti reviews
-        //tikrinti ar  review autorius nori ji istrinti
          $review->delete();
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('books.show', $request->book_id)
+        return redirect()->route('admin.reviews.index')
         ->with('success','Review deleted successfully.');
     }
 }

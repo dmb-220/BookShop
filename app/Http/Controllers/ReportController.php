@@ -7,11 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 class ReportController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->only(['store', 'destroy']);
-        $this->middleware('CheckRole:admin')->only(['index', 'show', 'update']);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -54,7 +49,7 @@ class ReportController extends Controller
 
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('book.show', $request->book_id)
+        return redirect()->route('books.show', $request->book_id)
         ->with('success','Report created successfully.');
     }
 

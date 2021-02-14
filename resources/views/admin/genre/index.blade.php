@@ -11,7 +11,7 @@
 
 <div class="card">
     <header  class="card-header text-right">
-        <a href="{{ route('genre.create') }}" class="btn btn-primary ml-md-4"><i class="fa fa-plus"></i> New Genre</a>
+        <a href="{{ route('admin.genres.create') }}" class="btn btn-primary ml-md-4"><i class="fa fa-plus"></i> New Genre</a>
     </header >
     <div class="card-body">
 <table class="table table-striped">
@@ -32,12 +32,12 @@
         <td>{{ $genre->books->count() }}</td>
         <td>{{ \Carbon\Carbon::parse($genre->created_at)->format('Y-m-d') }}</td>
         <td class="text-right">
-            <form action="{{ route('genre.destroy', $genre->id)}}" method="post">
+            <form action="{{ route('admin.genres.destroy', $genre->id)}}" method="post">
                 @csrf
                 @method('DELETE')
-                <a href="{{ route('genre.edit', $genre->id)}}" class="btn btn-info btn-sm">Edit</a>
+                <a href="{{ route('admin.genres.edit', $genre->id)}}" class="btn btn-info btn-sm">Edit</a>
                 @if(!$genre->books->count())
-                <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                <button class="btn btn-danger btn-sm" onclick="return confirm('Delete genre?');" type="submit">Delete</button>
                 @endif
             </form>
         </td>

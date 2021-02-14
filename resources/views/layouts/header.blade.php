@@ -13,7 +13,7 @@
                           <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search"></i>
                           </button>
-                          <a href="{{ route('book.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> New Book</a>
+                          <a href="{{ route('books.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> New Book</a>
                         </div>
                     </div>
                 </form> <!-- search-wrap .end// -->
@@ -60,9 +60,9 @@
                         <a class="dropdown-item" href="#">Profile setting</a>
                         <a class="dropdown-item" href="#">My orders</a>
                         @if (Auth::user()->isAdmin())
-                        <a class="dropdown-item" href="{{ route('admin_index') }}">Admin panel</a>
+                        <a class="dropdown-item" href="{{ route('admin.admin.index') }}">Admin panel</a>
                         @else
-                        <a class="dropdown-item" href="{{ route('admin_index') }}">User panel</a>
+                        <a class="dropdown-item" href="{{ route('admim.admin.index') }}">User panel</a>
                         @endif
                         
                         <hr class="dropdown-divider">

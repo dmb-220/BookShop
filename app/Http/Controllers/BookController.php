@@ -21,7 +21,7 @@ class BookController extends Controller
      */
     public function index()
     {
-        $book = Book::where('check', NULL)
+        $book = Book::where('check', 1)
         ->orderBy('created_at', 'desc')
         ->paginate(25);
 
@@ -43,7 +43,8 @@ class BookController extends Controller
     public function create()
     {
             return view('user.book_create')
-            ->with('genres', Genre::orderBy('genre', 'asc')
+            ->with('genres', 
+            Genre::orderBy('genre', 'asc')
             ->get());
     }
 
@@ -61,6 +62,7 @@ class BookController extends Controller
             'author' => 'required|min:10',
             'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'genre' => 'required|array',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
             'description' => 'required|min:20',
         ]);
 
@@ -94,7 +96,7 @@ class BookController extends Controller
         $book_id->authors()->sync($author_id);
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('index')
+        return redirect()->route('books.index')
         ->with('success','Book created successfully.');
     }
 

@@ -13,31 +13,34 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+//GUEST
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\BookController::class, 'index']);
+Route::resource('books', App\Http\Controllers\BookController::class);
 
-Route::resource('book', App\Http\Controllers\BookController::class);
+//USER
+Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
 
-Route::resource('review', App\Http\Controllers\ReviewController::class);
-Route::resource('report', App\Http\Controllers\ReportController::class);
-//suskirstyti admin
+    Route::resource('reviews', App\Http\Controllers\ReviewController::class);
+    //Route::post('review/store', App\Http\Controllers\ReviewController::class, 'store')->name('review_store');
+    //Route::delete('review/{review}/destroy', App\Http\Controllers\ReviewController::class, 'destroy')->name('reports_destroy');
 
-//suskirtyti user
-Route::group(['middleware' => 'CheckRole:admin'], function () {
+    Route::resource('reports', App\Http\Controllers\ReportController::class);
+    //Route::post('report/store', App\Http\Controllers\ReportController::class, 'store')->name('reports_store');
 
-    Route::prefix('admin')->group(function () {
-        Route::get('', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin_index');
-        Route::get('create', [App\Http\Controllers\Admin\AdminController::class, 'create']);
-        Route::get('{admin}', [App\Http\Controllers\Admin\AdminController::class, 'show']);
+});
 
-    //Route::resource('book', App\Http\Controllers\Admin\BookController::class);
-    //Route::resource('genre', App\Http\Controllers\Admin\GenreController::class);
-    });
-    
-    Route::resource('abook', App\Http\Controllers\Admin\BookController::class);
-    Route::resource('genre', App\Http\Controllers\Admin\GenreController::class);
-    Route::resource('author', App\Http\Controllers\AuthorController::class);
+//ADMIN
+Route::group(['middleware' => 'CheckRole:admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('admin', App\Http\Controllers\Admin\AdminController::class);
+    //Route::get('', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin_index');
+    //Route::get('create', [App\Http\Controllers\Admin\AdminController::class, 'create']);
+    //Route::get('{admin}', [App\Http\Controllers\Admin\AdminController::class, 'show']);
 
+    Route::resource('books', App\Http\Controllers\Admin\BookController::class);
+    Route::resource('genres', App\Http\Controllers\Admin\GenreController::class);
+    Route::resource('authors', App\Http\Controllers\Admin\AuthorController::class);
+    Route::resource('reviews', App\Http\Controllers\Admin\ReviewController::class);
+    Route::resource('reports', App\Http\Controllers\Admin\ReportController::class);
 });

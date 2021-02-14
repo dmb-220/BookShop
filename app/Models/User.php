@@ -48,4 +48,8 @@ class User extends Authenticatable
     public function isRegular(){
         return (auth()->user()->role_id != 1);
     }
+
+    public function books(){
+        return $this->hasMany(Book::class);
+    }
 }

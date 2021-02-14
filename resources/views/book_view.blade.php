@@ -35,22 +35,18 @@
                                 </h6>
                                 <div class="rating-wrap my-3">
                                     <ul class="rating-stars">
-                                        <li style="width:80%" class="stars-active">
-                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                        <li style="width:{{ $book->allBookRating($book->reviews) }}%" class="stars-active">
+                                            <img src="{{ asset("img/stars-active.svg") }}" alt="">
                                         </li>
                                         <li>
-                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            <img src="{{ asset("img/starts-disable.svg") }}" alt="">
                                         </li>
                                     </ul>
-                                    <small class="label-rating text-muted">132 reviews</small>
+                                    <small class="label-rating text-muted">{{ $book->reviews->count() }} reviews</small>
                                 </div>                   
                                 <div class="mb-3">
-                                    <var class="price h4">$8.15</var>
-                                    <span class="text-muted">$18.15</span>
+                                    <var class="price h4">{{ $book->price }}$</var>
+                                    {{--<span class="text-muted">$18.15</span>--}}
                                 </div>
                                 <p>{{$book->description}}</p>
                                 <hr>
@@ -78,7 +74,7 @@
                 <div class="modal-body">
                     @auth
                     @if(!$book->report)
-                    <form action="{{ route('report.store') }}" method="POST">
+                    <form action="{{ route('user.reports.store') }}" method="POST">
                         @csrf
                     <div class="form-group">
                         <textarea name="report" class="form-control" rows="3"></textarea>
@@ -110,17 +106,53 @@
         <div class="row">  
             <div class="col-md-12">
                 <article class="box mb-3">
-                <form action="{{ route('review.store') }}" method="POST">
+                <form action="{{ route('user.reviews.store') }}" method="POST">
                     @csrf
                 <div class="form-group row">
-                    <label>Book review</label>
+                    <label class="col-md-2 col-form-label text-md-right">Book review</label>
+                    <div class="col-md-10"> 
                     <textarea name="reviews" class="form-control" rows="3"></textarea>
-                    <input type="hidden" name="book_id" value="{{ $book->id }}" />
                     @if ($errors->has('reviews'))
                     <span class="text-danger">{{ $errors->first('reviews') }}</span>
-                @endif
+                    @endif
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-sm btn-success btn-block"> Write review </button>
+
+                <input type="hidden" name="book_id" value="{{ $book->id }}" />
+            
+                <div class="form-group row mb-0">
+                    <div class="col-md-10 offset-md-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rating" value="1">
+                            <label class="form-check-label">1</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rating" value="2">
+                            <label class="form-check-label">2</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rating" value="3">
+                            <label class="form-check-label">3</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rating" value="4">
+                            <label class="form-check-label">4</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="rating" value="5">
+                            <label class="form-check-label">5</label>
+                        </div>
+                    @if ($errors->has('rating'))
+                    <span class="text-danger">{{ $errors->first('rating') }}</span>
+                    @endif
+                    </div>
+                </div>
+ 
+                <div class="form-group row mb-0">
+                    <div class="col-md-10 offset-md-2">
+                        <button type="submit" class="btn btn-sm btn-success btn-block"> Write review </button>
+                    </div>
+                </div>
                 </form>
                 </article>
 
@@ -133,6 +165,14 @@
                                 {{ \Carbon\Carbon::parse($review->created_at)->format('Y-m-d') }}
                             </span>  
                             <h6 class="mb-1">{{ $review->user->name}}</h6>
+                            <ul class="rating-stars">
+                                <li style="width:{{ $review->viewRating($review->rating) }}%" class="stars-active">
+                                    <img src="{{ asset("img/stars-active.svg") }}" alt="">
+                                </li>
+                                <li>
+                                    <img src="{{ asset("img/starts-disable.svg") }}" alt="">
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div class="mt-3">
@@ -143,7 +183,7 @@
                     
                     @if ($review->user->id == Auth::id())
                     <hr>
-                    <form action="{{ route('review.destroy', $review->id)}}" method="post">
+                    <form action="{{ route('user.reviews.destroy', $review->id)}}" method="post">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="book_id" value="{{ $book->id }}" />

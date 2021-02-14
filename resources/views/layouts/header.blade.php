@@ -57,12 +57,18 @@
                     </div> <!--  dropdown-menu .// -->
                     @else  
                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(64px, 46px, 0px);">
-                        <a class="dropdown-item" href="#">Profile setting</a>
-                        <a class="dropdown-item" href="#">My orders</a>
                         @if (Auth::user()->isAdmin())
-                        <a class="dropdown-item" href="{{ route('admin.admin.index') }}">Admin panel</a>
+                        <a class="dropdown-item" href="{{ route('admin.admin.index') }}">Profile setting</a>
+                        <a class="dropdown-item" href="{{ route('admin.books.index') }}">Books </a>
+                        <a class="dropdown-item" href="{{ route('admin.genres.index') }}">Genres </a>
+                        <a class="dropdown-item" href="{{ route('admin.authors.index') }}">Authors </a>
+                        <a class="dropdown-item" href="{{ route('admin.reviews.index') }}">Reviews </a>
+                        <a class="dropdown-item" href="{{ route('admin.reports.index') }}">Reports </a>
                         @else
-                        <a class="dropdown-item" href="{{ route('admim.admin.index') }}">User panel</a>
+                        <a class="dropdown-item" href="{{ route('user.user.index') }}">Profile setting</a>
+                        <a class="dropdown-item" href="{{ route('user.books.index') }}">Books </a>
+                        <a class="dropdown-item" href="{{ route('user.reviews.index') }}">Reviews </a>
+                        <a class="dropdown-item" href="{{ route('user.reports.index') }}">Reports </a>
                         @endif
                         
                         <hr class="dropdown-divider">

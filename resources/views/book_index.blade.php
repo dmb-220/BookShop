@@ -38,16 +38,18 @@
                                 <hr>
                                 <!-- vienoje eiluteje rikiavimas prie vieno ir kitos puses -->
                                 <div class="mt-2">
-                                        <span class="price">$12.99</span>
-                                        <small class="price-old">$14.99</small>
+                                        <span class="price">{{ $book->price }} $</span>
+                                        {{--<small class="price-old">$14.99</small>--}}
                                     <ul class="rating-stars float-right">
-                                        <li style="width:80%" class="stars-active">
-                                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
-                                        </li>
-                                    </ul>
+                                        <ul class="rating-stars">
+                                            <li style="width:{{ $book->allBookRating($book->reviews) }}%" class="stars-active">
+                                                <img src="{{ asset("img/stars-active.svg") }}" alt="">
+                                            </li>
+                                            <li>
+                                                <img src="{{ asset("img/starts-disable.svg") }}" alt="">
+                                            </li>
+                                        </ul>
+                                    </ul>      
                                 </div>
                         </figcaption>
                     </figure>

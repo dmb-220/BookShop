@@ -17,17 +17,18 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\BookController::class, 'index']);
+
+Route::get('genre/{genre}', [App\Http\Controllers\GenreController::class, 'index'])->name("genres_view");
+
 Route::resource('books', App\Http\Controllers\BookController::class);
 
 //USER
 Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
+    Route::resource('user', App\Http\Controllers\User\UserController::class);
+    Route::resource('books', App\Http\Controllers\User\BookController::class);
 
-    Route::resource('reviews', App\Http\Controllers\ReviewController::class);
-    //Route::post('review/store', App\Http\Controllers\ReviewController::class, 'store')->name('review_store');
-    //Route::delete('review/{review}/destroy', App\Http\Controllers\ReviewController::class, 'destroy')->name('reports_destroy');
-
-    Route::resource('reports', App\Http\Controllers\ReportController::class);
-    //Route::post('report/store', App\Http\Controllers\ReportController::class, 'store')->name('reports_store');
+    Route::resource('reviews', App\Http\Controllers\User\ReviewController::class);
+    Route::resource('reports', App\Http\Controllers\User\ReportController::class);
 
 });
 

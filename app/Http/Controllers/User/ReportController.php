@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
+use App\Http\Controllers\Controller;
 
 use App\Models\Report;
 use Illuminate\Http\Request;
@@ -14,7 +15,9 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //
+        return view('user.report.index')
+        ->with('reports', Report::where('user_id', Auth::id())
+        ->paginate(20));
     }
 
     /**
@@ -61,7 +64,7 @@ class ReportController extends Controller
      */
     public function show(Report $report)
     {
-        //
+        return view('user.report.show', compact('report'));
     }
 
     /**
@@ -84,7 +87,7 @@ class ReportController extends Controller
      */
     public function update(Request $request, Report $report)
     {
-        //
+        
     }
 
     /**
@@ -95,6 +98,10 @@ class ReportController extends Controller
      */
     public function destroy(Report $report)
     {
-        //
+        $report->delete();
+        //gristam i pradini puslapi
+        //siunciam pranesima kad irasymas atliktas
+        return redirect()->route('user.report.index')
+        ->with('success','Report deleted successfully.');
     }
 }

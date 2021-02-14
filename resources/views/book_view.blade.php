@@ -91,6 +91,15 @@
                     <div class="alert alert-success">
                         <p>{{ $book->report->report }}</p>
                     </div>
+                    @if ($book->report->ansver)
+                    Admin ansver:
+                    <div class="alert alert-info">
+                        <p>{{ $book->report->ansver }}</p>
+                    </div>
+                    @else
+                    Waiting admin ansver!
+                    @endif
+                    
                     @endif
                     @endauth
                 </div>
@@ -142,12 +151,13 @@
                             <input class="form-check-input" type="radio" name="rating" value="5">
                             <label class="form-check-label">5</label>
                         </div>
+                        <br>
                     @if ($errors->has('rating'))
                     <span class="text-danger">{{ $errors->first('rating') }}</span>
                     @endif
                     </div>
                 </div>
- 
+                <hr>
                 <div class="form-group row mb-0">
                     <div class="col-md-10 offset-md-2">
                         <button type="submit" class="btn btn-sm btn-success btn-block"> Write review </button>

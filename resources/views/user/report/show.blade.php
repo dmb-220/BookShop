@@ -38,7 +38,7 @@
                         </form>
                         </div>--}}
                         <div class="col-md-1">
-                        <form action="{{ route('admin.reports.destroy', $report->id)}}" method="post">
+                        <form action="{{ route('user.reports.destroy', $report->id)}}" method="post">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger" onclick="return confirm('Delete report?');" type="submit">Delete</button>
@@ -46,35 +46,13 @@
                         </div>
                     </div>
                 </article>  
-                <hr>
                 @if ($report->ansver)
+                <hr>
                 Ansver:
                 <div class="alert alert-info">
                     <p>{{ $report->ansver }}</p>
                 </div>
-                @endif
-                <article class="box mb-3">
-                    <form action="{{ route('admin.reports.update', $report->id) }}" method="POST">
-                        @csrf
-                        @method('PATCH')
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label text-md-right">Ansver reports</label>
-                        <div class="col-md-10"> 
-                        <textarea name="ansver" class="form-control" rows="3">{{ $report->ansver }}</textarea>
-                        @if ($errors->has('ansver'))
-                        <span class="text-danger">{{ $errors->first('ansver') }}</span>
-                        @endif
-                        </div>
-                    </div> 
-     
-                    <div class="form-group row mb-0">
-                        <div class="col-md-10 offset-md-2">
-                            <button type="submit" class="btn btn-sm btn-success btn-block"> Ansver </button>
-                        </div>
-                    </div>
-                    </form>
-                </article>
-                
+                @endif            
             </div>
         </div>      
     </div>

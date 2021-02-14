@@ -71,7 +71,23 @@ class ReportController extends Controller
      */
     public function update(Request $request, Report $report)
     {
-        //
+        //Atliekam validacija
+        $request->validate([
+            'ansver' => 'required|min:10|max:250',
+        ]);
+
+        //var_dump($request);
+
+        //$requestData = $request->all();
+        //$requestData['user_id'] = Auth::id();
+
+        //irasom i duomenu baze
+        $report->update(['ansver' => $request->ansver]);
+
+        //gristam i pradini puslapi
+        //siunciam pranesima kad irasymas atliktas
+        return redirect()->route('admin.reports.index')
+        ->with('success','Review created successfully.');
     }
 
     /**

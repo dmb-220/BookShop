@@ -35,7 +35,7 @@
         <main class="py-4">
             <section class="section-content padding-y">
                 <div class="container-fluid pl-5 px-5">
-                <div class="row">
+                <div class="row"> 
                     <div class="col-md-12">
                         @yield('content')
                     </div>

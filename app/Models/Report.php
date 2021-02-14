@@ -4,14 +4,18 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Report extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id','book_id', 'report', 'answer'
+        'user_id','book_id', 'report', 'ansver'
     ];
+    public function getStrReportAttribute(){
+        return Str::words($this->report, '30');
+    }
 
 
     public function user(){

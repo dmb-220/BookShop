@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 use App\Http\Controllers\Controller;
 
 use App\Models\Book;
@@ -18,10 +18,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('admin.book.index')
+        return view('user.book.index')
         ->with('books', 
-        Book::orderBy('check', 'asc')
-        ->orderBy('created_at', 'desc')
+        Book::where('user_id', Auth::id())
+        ->orderBy('check', 'asc')
+        ->latest()
         ->paginate(10));
     }
 
@@ -54,7 +55,7 @@ class BookController extends Controller
      */
     public function show(Book $book)
     {
-        return view('admin.book.show', compact('book'));
+        return view('user.book.show', compact('book'));
     }
 
     /**
@@ -65,7 +66,7 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('admin.book.edit', compact('book'))
+        return view('user.book.edit', compact('book'))
         ->with('genres', 
             Genre::orderBy('genre', 'asc')
             ->get());
@@ -80,8 +81,6 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //Knygos redagavimas
-        if($request->_method == 'PUT'){
             $request->validate([
                 'title' => 'required|min:5',
                 'author' => 'required|min:10',
@@ -125,18 +124,8 @@ class BookController extends Controller
             $book->authors()->sync($author_id);
             //gristam i pradini puslapi
             //siunciam pranesima kad irasymas atliktas
-            return redirect()->route('admin.books.index')
+            return redirect()->route('user.books.index')
             ->with('success','Book update successfully.');
-        }
-
-        //knygos patvirtinimas
-        if($request->_method == 'PATCH'){
-        $book->update(array('check' => 1));
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('admin.books.index')
-        ->with('success','Book verify successfully.');
-        }
     }
 
     /**
@@ -148,11 +137,9 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
-        $book->authors->detach();
-        $book->genres->detach();
             //gristam i pradini puslapi
             //siunciam pranesima kad irasymas atliktas
-            return redirect()->route('admin.books.index')
+            return redirect()->route('user.books.index')
             ->with('success','Book deleted successfully.');
     }
 }

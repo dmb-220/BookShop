@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\User;
+use App\Http\Controllers\Controller;
 
 use App\Models\Review;
 use Illuminate\Http\Request;
@@ -15,7 +16,9 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        //
+        return view('user.review.index')
+        ->with('reviews', Review::where('user_id', Auth::id())
+        ->paginate(20));
     }
 
     /**
@@ -63,7 +66,7 @@ class ReviewController extends Controller
      */
     public function show(Review $review)
     {
-        //
+        return view('user.review.show', compact('review'));
     }
 
     /**
@@ -102,7 +105,7 @@ class ReviewController extends Controller
          $review->delete();
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
-        return redirect()->route('books.show', $request->book_id)
+        return redirect()->route('user.review.index')
         ->with('success','Review deleted successfully.');
     }
 }

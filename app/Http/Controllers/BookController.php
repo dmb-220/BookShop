@@ -22,7 +22,7 @@ class BookController extends Controller
     public function index()
     {
         $book = Book::where('check', 1)
-        ->orderBy('created_at', 'desc')
+        ->latest()
         ->paginate(25);
 
         $genre = Genre::has('books', '>=', 1)
@@ -119,7 +119,6 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('book_view', compact('book'));
     }
 
     /**

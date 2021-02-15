@@ -1,18 +1,9 @@
 @extends('layouts.admin_app')
 
 @section('content')
-@if ($message = Session::get('success'))
-    <div class="container-fluid"> 
-        <div class="alert alert-success">
-            <p>{{ $message }}</p>
-        </div>
-    </div>
-@endif
-
-
 <div class="card">
     <header  class="card-header">
-        Book list
+        Search book list - {{ $search }}
     </header>
     <div class="card-body">
         @forelse ($books as $book)
@@ -59,7 +50,7 @@
     @endforelse
     {{-- Pagination --}}
     <div class="d-flex justify-content-center">
-        {!! $books->links() !!}
+
     </div>
     </div>
 </div>

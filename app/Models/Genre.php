@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Genre extends Model
 {
@@ -12,6 +13,11 @@ class Genre extends Model
     protected $fillable = [
         'genre',
     ];
+
+
+public function getStrDescriptionAttribute(){
+        return Str::words($this->description, '30');
+    }
 
     public function books()
     {

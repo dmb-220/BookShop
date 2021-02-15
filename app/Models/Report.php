@@ -13,6 +13,7 @@ class Report extends Model
     protected $fillable = [
         'user_id','book_id', 'report', 'ansver'
     ];
+    
     public function getStrReportAttribute(){
         return Str::words($this->report, '30');
     }

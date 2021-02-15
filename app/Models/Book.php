@@ -16,11 +16,15 @@ class Book extends Model
         'user_id','title', 'cover', 'description', 'check', 'price',
     ];
 
+    public function scopeCheck($query){
+        $query->where('check', 1);
+    }
+
     public function getStrTitleAttribute(){
         return Str::words($this->title, '4');
     }
 
-    public function getAuthorsList($author_list){
+    public function AuthorsList($author_list){
         foreach($author_list as $list){
             $authors[] = $list['name'];
         }
@@ -28,6 +32,15 @@ class Book extends Model
         
         return $authors;
     }
+    public function GenreList($genre_list){
+        foreach($genre_list as $list){
+            $genres[] = $list['genre'];
+        }
+        $genres = implode(', ', $genres);
+        
+        return $genres;
+    }
+
 
     public function checkGenres($genre_id, $check_list){
         foreach($check_list as $list){

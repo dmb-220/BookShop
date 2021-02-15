@@ -21,8 +21,8 @@ class BookController extends Controller
      */
     public function index()
     {
-        $book = Book::where('check', 1)
-        ->latest()
+        $book = Book::check()
+        ->latest('id')
         ->paginate(25);
 
         $genre = Genre::has('books', '>=', 1)

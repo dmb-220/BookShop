@@ -6,9 +6,10 @@
             <a href="{{ url('/') }}"><h1>BookShop</h1></a>
         </div>
         <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4 d-none d-md-block">
-                <form action="#" class="search">
+                <form action="{{ route('search_view')}}" method="POST" class="search">
+                    @csrf
                     <div class="input-group w-100">
-                        <input type="text" class="form-control" style="width:55%;" placeholder="Search">
+                        <input type="text" name="search" class="form-control" style="width:55%;" placeholder="Search">
                         <div class="input-group-append">
                           <button class="btn btn-primary" type="submit">
                             <i class="fa fa-search"></i>
@@ -16,8 +17,8 @@
                           <a href="{{ route('books.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> New Book</a>
                         </div>
                     </div>
-                </form> <!-- search-wrap .end// -->
-        </div> <!-- col.// -->
+                </form>
+        </div>
         <div class="col-lg-5 col-xl-4 col-sm-8 col-md-4 col-7">
             <div class="d-flex justify-content-end">
                 <a href="#" class="widget-header mr-3">

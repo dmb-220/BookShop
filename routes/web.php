@@ -16,9 +16,11 @@ use Illuminate\Support\Facades\Route;
 //GUEST
 Auth::routes();
 
-Route::get('/', [App\Http\Controllers\BookController::class, 'index']);
+Route::get('/', [App\Http\Controllers\BookController::class, 'index'])->name('index');
 
 Route::get('genre/{genre}', [App\Http\Controllers\GenreController::class, 'index'])->name("genres_view");
+
+Route::post('search', [App\Http\Controllers\SearchController::class, 'index'])->name("search_view");
 
 Route::resource('books', App\Http\Controllers\BookController::class);
 

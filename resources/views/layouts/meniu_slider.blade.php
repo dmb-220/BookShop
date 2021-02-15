@@ -25,7 +25,7 @@
                                         </a>
                                         <div class="card-body">
                                             <h4 class="card-title">{{ $book->str_title }}</h4>
-                                            <p class="card-text">{{ $book->getAuthorsList($book->authors) }}</p>
+                                            <p class="card-text">{{ $book->AuthorsList($book->authors) }}</p>
     
                                         </div>
     

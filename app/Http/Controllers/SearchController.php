@@ -1,20 +1,36 @@
 <?php
 
-namespace App\Http\Controllers\User;
-use App\Http\Controllers\Controller;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Book;
 
-class UserController extends Controller
+class SearchController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('user.index');
+        $request->validate([
+            'search' => 'required|min:3',
+        ]);
+
+        $keyword = "%{$request->search}%";
+
+        $books = Book::check()
+        ->where( function($query) use ($keyword) {
+            $query->where('title','LIKE', $keyword);
+            $query->orWhereHas('authors' ,function($query) use ($keyword) {
+                $query->where('name', 'LIKE', $keyword);
+            });
+            })->paginate(25);
+        
+        return view('search_view')
+        ->with('books', $books)
+        ->with('search', $request->search);
     }
 
     /**
@@ -41,10 +57,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($user)
+    public function show($id)
     {
         //
     }
@@ -52,10 +68,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($user)
+    public function edit($id)
     {
         //
     }
@@ -64,10 +80,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $user)
+    public function update(Request $request, $id)
     {
         //
     }
@@ -75,10 +91,10 @@ class UserController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $user
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user)
+    public function destroy($id)
     {
         //
     }

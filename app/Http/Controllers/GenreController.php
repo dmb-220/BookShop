@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Book;
-use Illuminate\Database\Eloquent\Builder;
-//use Illuminate\Support\Facades\Auth;
 
 class GenreController extends Controller
 {
@@ -17,9 +15,11 @@ class GenreController extends Controller
     public function index($genre)
     {
         return view('genre_view')
-        ->with('books', Book::whereHas('genres', function (Builder $query) {
-            $query->where('genre', "15");
+        ->with('books', Book::check()
+        ->whereHas('genres', function ($query) use($genre) {
+            $query->where('genre_id', $genre);
         })
+        ->latest('id')
         ->paginate(20));
     }
 

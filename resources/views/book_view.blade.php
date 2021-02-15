@@ -24,14 +24,10 @@
                         </aside>
                         <main class="col-md-8 border-left">
                             <article class="content-body">
-                                @foreach($book->authors as $author)
-                                {{ $author->name }}{{ $loop->last ? '' : ','}}
-                                @endforeach
+                                {{ $book->AuthorsList($book->authors) }}
                                 <h2 class="title">{{$book->title}}</h2>
                                 <h6>
-                                    @foreach($book->genres as $genre)
-                                    {{ $genre->genre }}{{ $loop->last ? '' : ','}}
-                                    @endforeach
+                                    {{ $book->GenreList($book->genres) }}
                                 </h6>
                                 <div class="rating-wrap my-3">
                                     <ul class="rating-stars">

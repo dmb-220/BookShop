@@ -2,16 +2,13 @@
 
 @section('content')
 <div class="card">
-    <header  class="card-header">
-        Search book list - {{ $search }}
-    </header>
     <div class="card-body">
         @forelse ($books as $book)
         <article class="card card-product-list">
             <div class="row no-gutters">
                 <aside class="col-md-2">
                     <a href="{{ asset("storage/".$book->cover) }}" class="img-wrap">
-                        @if ($book->created_at_difference() <= 7)
+                        @if ($book->is_new)
                             <span class="badge badge-danger"> NEW </span>
                         @endif
                         <img src="{{ asset("storage/".$book->cover) }}">
@@ -28,8 +25,12 @@
                         {{ $book->description }}
                         <hr>
                         <div class="mt-2">
-                            <span class="price">{{ $book->price }} $</span>
-                            {{--<small class="price-old">$14.99</small>--}}
+                            @if ($book->discount)
+                                <span class="price">{{ $book->discount_sum }} $</span>
+                                <small class="price-old">{{ $book->price }} $</small>
+                                @else
+                                <span class="price">{{ $book->price }} $</span>
+                                @endif
                         <ul class="rating-stars float-right">
                             <ul class="rating-stars">
                                 <li style="width:{{ $book->allBookRating($book->reviews) }}%" class="stars-active">

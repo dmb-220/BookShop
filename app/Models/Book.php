@@ -13,8 +13,12 @@ class Book extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','title', 'cover', 'description', 'check', 'price',
+        'user_id','title', 'cover', 'description', 'check', 'price', 'discount'
     ];
+
+    public function getIsNewAttribute(){
+        return now()->subDays(7) <= $this->created_at;
+     }
 
     public function scopeCheck($query){
         $query->where('check', 1);
@@ -23,6 +27,16 @@ class Book extends Model
     public function getStrTitleAttribute(){
         return Str::words($this->title, '4');
     }
+
+    public function getStrDescriptionAttribute(){
+        return Str::words($this->description, '30');
+    }
+
+    public function getDiscountSumAttribute()
+    {
+        return number_format($this->price - ($this->price*($this->discount/100)), 2);
+    }
+
 
     public function AuthorsList($author_list){
         foreach($author_list as $list){

@@ -18,29 +18,33 @@
         @forelse ($books as $book)
         <article class="card card-product-list">
             <div class="row no-gutters">
-                <aside class="col-md-3">
+                <aside class="col-md-2">
                     <a href="{{ asset("storage/".$book->cover) }}" class="img-wrap">
-                        @if ($book->created_at_difference() <= 7)
-                            <span class="badge badge-danger"> NEW </span>
-                        @endif
                         <img src="{{ asset("storage/".$book->cover) }}">
                     </a>
                 </aside>
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="info-main">
-                        @foreach($book->authors as $author)
-                        {{ $author->name }}{{ $loop->last ? '' : ','}}
-                        @endforeach
+                        @if ($book->is_new)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-info"><b>NEW</b></div>
+                                </span>
+                                @endif
+                                @if ($book->discount)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
+                                </span>
+                                @endif
+
+                        {{ $book->AuthorsList($book->authors) }}
                         <div class="h5 title"> {{ $book->title }}</div>
-                        @foreach($book->genres as $genre)
-                        {{ $genre->genre }}{{ $loop->last ? '' : ','}}
-                        @endforeach
+                        {{ $book->GenreList($book->genres) }}
                         <hr>
-                        {!! \Illuminate\Support\Str::words($book->description, 30,' ...')  !!}
+                        {{ $book->strDescription }}
                     </div>
                 </div>
 
-                <aside class="col-sm-3">
+                <aside class="col-sm-2">
                     <div class="info-aside">
                         <a href="{{ route('admin.books.show', $book->id) }}" class="btn btn-sm btn-info btn-block"> Details </a>
                         <a href="{{ route('admin.books.edit', $book->id) }}" class="btn btn-sm btn-primary btn-block"> Edit </a>

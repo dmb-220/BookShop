@@ -8,6 +8,7 @@ use App\Models\Genre;
 use App\Models\Author;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -20,7 +21,8 @@ class BookController extends Controller
     {
         return view('user.book.index')
         ->with('books', 
-        Book::where('user_id', Auth::id())
+        Book::with('authors', 'genres', 'reviews')
+        ->where('user_id', Auth::id())
         ->orderBy('check', 'asc')
         ->latest()
         ->paginate(10));
@@ -81,26 +83,43 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
+        //var_dump($request->all());
+        if($request->_method == 'PUT'){
             $request->validate([
                 'title' => 'required|min:5',
                 'author' => 'required|min:10',
-                //'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'genre' => 'required|array',
                 'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
                 'description' => 'required|min:20',
             ]);
 
-            //ikeliam cover nuotrauka
-            //$imageName = time().'.'.$request->cover->extension();  
-            //$request->cover->storeAs('public', $imageName);
             //pasiimam request reiksmes
             $requestData = $request->all();
-            //pridedam trukstamas reiksmes, irasymui i DB
-            //$requestData['cover'] = $imageName;
-            $requestData['user_id'] = Auth::id();
             $requestData['check'] = 0;
             //jei neuzkeliama naujas cover
             $requestData['cover'] = $book->cover;
+
+            if($request->cover){
+                //JEI NAUJAI IKELIAMAS cover
+                $request->validate([
+                    'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                ]);
+
+
+                if(Storage::exists('public/'.$book->cover)){
+                    Storage::delete('public/'.$book->cover);
+                }else{      
+                    dd('File does not exists.');
+                }
+
+                //ikeliam cover nuotrauka
+                $imageName = time().'.'.$request->cover->extension();  
+                $request->cover->storeAs('public', $imageName);
+
+                //pridedam trukstamas reiksmes, irasymui i DB
+                //naujas cover
+                $requestData['cover'] = $imageName;
+            }
             //tikrinam vienas Autorius ar keli
             //atskiriame kableliu
             $authors = explode(",", $request->author);
@@ -126,6 +145,21 @@ class BookController extends Controller
             //siunciam pranesima kad irasymas atliktas
             return redirect()->route('user.books.index')
             ->with('success','Book update successfully.');
+            
+        }
+
+        //knygos patvirtinimas
+        if($request->_method == 'PATCH'){
+            $request->validate([
+                'discount' => 'required|numeric',
+            ]);
+
+            $book->update(array('discount' => $request->discount));
+            //gristam i pradini puslapi
+            //siunciam pranesima kad irasymas atliktas
+            return redirect()->route('user.books.index')
+            ->with('success','Book discount add successfully.');
+            }
     }
 
     /**

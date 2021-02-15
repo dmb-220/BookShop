@@ -18,10 +18,16 @@
                 <div class="col-sm-custom">
                     <figure class="card card-product-grid">
                         <div class="img-wrap">
-                            @if ($book->created_at_difference() <= 7)
-                            <span class="badge badge-danger"> NEW </span>
+                            
+                            @if ($book->is_new)
+                            <span class="badge badge-info"> <b>NEW</b> </span>
                             @endif
                             <img class="img-lg" src="{{ asset("storage/".$book->cover) }}">
+                            @if ($book->discount)
+                            <span class="topbar">
+                                <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
+                            </span>
+                            @endif
                             <a class="btn-overlay" href="#"><i class="fa fa-plus"></i> Add Wish List</a>
                         </div>
                         <figcaption class="info-wrap border-top">
@@ -33,8 +39,12 @@
                             <hr>
                             <!-- vienoje eiluteje rikiavimas prie vieno ir kitos puses -->
                             <div class="mt-2">
-                                    <span class="price">{{ $book->price }} $</span>
-                                    {{--<small class="price-old">$14.99</small>--}}
+                                @if ($book->discount)
+                                <span class="price">{{ $book->discount_sum }} $</span>
+                                <small class="price-old">{{ $book->price }} $</small>
+                                @else
+                                <span class="price">{{ $book->price }} $</span>
+                                @endif
                                 <ul class="rating-stars float-right">
                                     <ul class="rating-stars">
                                         <li style="width:{{ $book->allBookRating($book->reviews) }}%" class="stars-active">
@@ -52,7 +62,7 @@
                 @endforeach
                 {{-- Pagination --}}
                 <div class="d-flex justify-content-center">
-                    {!! $books->links() !!}
+                    {{ $books->links() }}
                 </div>
             </div> <!-- row end.// -->
 

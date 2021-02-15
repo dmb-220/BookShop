@@ -7,7 +7,7 @@ use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
 {
@@ -20,8 +20,8 @@ class BookController extends Controller
     {
         return view('admin.book.index')
         ->with('books', 
-        Book::orderBy('check', 'asc')
-        ->orderBy('created_at', 'desc')
+        Book::with('authors', 'genres', 'reviews')
+        ->latest('id')
         ->paginate(10));
     }
 
@@ -85,23 +85,40 @@ class BookController extends Controller
             $request->validate([
                 'title' => 'required|min:5',
                 'author' => 'required|min:10',
-                //'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'genre' => 'required|array',
                 'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
                 'description' => 'required|min:20',
             ]);
 
-            //ikeliam cover nuotrauka
-            //$imageName = time().'.'.$request->cover->extension();  
-            //$request->cover->storeAs('public', $imageName);
             //pasiimam request reiksmes
             $requestData = $request->all();
-            //pridedam trukstamas reiksmes, irasymui i DB
-            //$requestData['cover'] = $imageName;
-            $requestData['user_id'] = Auth::id();
             $requestData['check'] = 0;
             //jei neuzkeliama naujas cover
             $requestData['cover'] = $book->cover;
+
+            if($request->cover){
+                //JEI NAUJAI IKELIAMAS cover
+                $request->validate([
+                    'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                ]);
+
+
+                if(Storage::exists('public/'.$book->cover)){
+                    Storage::delete('public/'.$book->cover);
+                }else{      
+                    dd('File does not exists.');
+                }
+
+
+                //ikeliam cover nuotrauka
+                $imageName = time().'.'.$request->cover->extension();  
+                $request->cover->storeAs('public', $imageName);
+
+                //pridedam trukstamas reiksmes, irasymui i DB
+                //naujas cover
+                $requestData['cover'] = $imageName;
+            }
+
             //tikrinam vienas Autorius ar keli
             //atskiriame kableliu
             $authors = explode(",", $request->author);

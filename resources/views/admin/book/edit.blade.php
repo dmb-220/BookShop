@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">Book edit</div>
                 <div class="card-body">
-                    <form action="{{ route('admin.books.update', $book->id) }}" method="POST">
+                    <form action="{{ route('admin.books.update', $book->id) }}" method="POST"  enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group row">
@@ -23,7 +23,7 @@
                         <div class="form-group row">                    
                             <label class="col-md-4 col-form-label text-md-right" for="author">Author</label>   
                             <div class="col-md-8">
-                            <input name="author" value="{{ $book->getAuthorsList($book->authors) }}" 
+                            <input name="author" value="{{ $book->AuthorsList($book->authors) }}" 
                                 type="text" class="form-control" placeholder="Enter author name">   
                             <small class="form-text text-muted">Authors are separated by commas</small>
                             @if ($errors->has('author'))

@@ -20,14 +20,22 @@
             <div class="row no-gutters">
                 <aside class="col-md-2">
                     <a href="{{ asset("storage/".$book->cover) }}" class="img-wrap">
-                        @if ($book->created_at_difference() <= 7)
-                            <span class="badge badge-danger"> NEW </span>
-                        @endif
                         <img src="{{ asset("storage/".$book->cover) }}">
                     </a>
                 </aside>
                 <div class="col-md-10">
                     <div class="info-main">
+                        @if ($book->is_new)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-info"><b>NEW</b></div>
+                                </span>
+                                @endif
+                                @if ($book->discount)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
+                                </span>
+                                @endif
+
                         {{ $book->AuthorsList($book->authors) }}
                         <a href="{{ route('books.show', $book->id) }}">
                             <div class="h5 title"> {{ $book->title }}</div>
@@ -37,8 +45,12 @@
                         {{ $book->description }}
                         <hr>
                         <div class="mt-2">
-                            <span class="price">{{ $book->price }} $</span>
-                            {{--<small class="price-old">$14.99</small>--}}
+                            @if ($book->discount)
+                                <span class="price">{{ $book->discount_sum }} $</span>
+                                <small class="price-old">{{ $book->price }} $</small>
+                                @else
+                                <span class="price">{{ $book->price }} $</span>
+                                @endif
                         <ul class="rating-stars float-right">
                             <ul class="rating-stars">
                                 <li style="width:{{ $book->allBookRating($book->reviews) }}%" class="stars-active">

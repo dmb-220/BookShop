@@ -14,7 +14,7 @@ class Review extends Model
     ];
 
     public function getStrReviewAttribute(){
-        return Str::words($this->review, '30');
+        return Str::words($this->reviews, '30');
     }
 
     public function user(){
@@ -24,7 +24,6 @@ class Review extends Model
     public function book(){
         return $this->belongsTo(Book::class);
     }
-
 
     public function viewRating($rating){
         //if(!$rating){}

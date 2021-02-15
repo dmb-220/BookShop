@@ -18,12 +18,23 @@
                         <aside class="col-md-4">
                             <article class="gallery-wrap">
                                 <div class="img-big-wrap padding-y-sm">
-                                    <div><a href="{{ asset("storage/".$book->cover) }}"><img src="{{ asset("storage/".$book->cover) }}"></a></div>
+                                    <a href="{{ asset("storage/".$book->cover) }}">
+                                        <img src="{{ asset("storage/".$book->cover) }}"></a>
                                 </div> 
                             </article>
                         </aside>
                         <main class="col-md-8 border-left">
                             <article class="content-body">
+                                @if ($book->is_new)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-info"><b>NEW</b></div>
+                                </span>
+                                @endif
+                                @if ($book->discount)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
+                                </span>
+                                @endif
                                 {{ $book->AuthorsList($book->authors) }}
                                 <h2 class="title">{{$book->title}}</h2>
                                 <h6>
@@ -41,8 +52,13 @@
                                     <small class="label-rating text-muted">{{ $book->reviews->count() }} reviews</small>
                                 </div>                   
                                 <div class="mb-3">
-                                    <var class="price h4">{{ $book->price }}$</var>
-                                    {{--<span class="text-muted">$18.15</span>--}}
+                                @if ($book->discount)
+                                    <var class="price h4">{{ $book->discount_sum }} $</var>
+                                    <span class="text-muted">{{ $book->price }} $</span>
+                                @else
+                                <var class="price h4">{{ $book->price}} $</var>
+                                @endif  
+                                  
                                 </div>
                                 <p>{{$book->description}}</p>
                                 <hr>
@@ -124,35 +140,38 @@
                 </div>
 
                 <input type="hidden" name="book_id" value="{{ $book->id }}" />
-            
-                <div class="form-group row mb-0">
-                    <div class="col-md-10 offset-md-2">
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="rating" value="1">
-                            <label class="form-check-label">1</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="rating" value="2">
-                            <label class="form-check-label">2</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="rating" value="3">
-                            <label class="form-check-label">3</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="rating" value="4">
-                            <label class="form-check-label">4</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <input class="form-check-input" type="radio" name="rating" value="5">
-                            <label class="form-check-label">5</label>
-                        </div>
+
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label text-md-right">Rating</label>
+                    <div class="col-sm-9 pt-1">
+                        <label class="custom-control custom-radio custom-control-inline">
+                          <input class="custom-control-input" type="radio" name="rating" value="1">
+                          <span class="custom-control-label"> 1 </span>
+                        </label>
+                        <label class="custom-control custom-radio custom-control-inline">
+                          <input class="custom-control-input" type="radio" name="rating" value="2">
+                          <span class="custom-control-label"> 2 </span>
+                        </label>
+                        <label class="custom-control custom-radio custom-control-inline">
+                          <input class="custom-control-input" type="radio" name="rating" value="3">
+                          <span class="custom-control-label"> 3 </span>
+                        </label>
+                        <label class="custom-control custom-radio custom-control-inline">
+                            <input class="custom-control-input" type="radio" name="rating" value="4">
+                            <span class="custom-control-label"> 4 </span>
+                        </label>
+                        <label class="custom-control custom-radio custom-control-inline">
+                            <input class="custom-control-input" type="radio" name="rating" value="5">
+                            <span class="custom-control-label"> 5 </span>
+                        </label>
                         <br>
-                    @if ($errors->has('rating'))
-                    <span class="text-danger">{{ $errors->first('rating') }}</span>
-                    @endif
+                        @if ($errors->has('rating'))
+                            <span class="text-danger">{{ $errors->first('rating') }}</span>
+                        @endif
                     </div>
-                </div>
+                  </div>
+                  
+
                 <hr>
                 <div class="form-group row mb-0">
                     <div class="col-md-10 offset-md-2">

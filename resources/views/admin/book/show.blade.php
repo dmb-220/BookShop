@@ -24,6 +24,17 @@
                         </aside>
                         <main class="col-md-8 border-left">
                             <article class="content-body">
+                                @if ($book->is_new)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-info"><b>NEW</b></div>
+                                </span>
+                                @endif
+                                @if ($book->discount)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
+                                </span>
+                                @endif
+                                
                                 @foreach($book->authors as $author)
                                 {{ $author->name }}{{ $loop->last ? '' : ','}}
                                 @endforeach

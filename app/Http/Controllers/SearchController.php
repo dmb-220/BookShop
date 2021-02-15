@@ -21,6 +21,7 @@ class SearchController extends Controller
         $keyword = "%{$request->search}%";
 
         $books = Book::check()
+        ->with('authors', 'genres', 'reviews')
         ->where( function($query) use ($keyword) {
             //title
             $query->where('title','LIKE', $keyword);

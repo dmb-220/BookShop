@@ -16,6 +16,7 @@ class GenreController extends Controller
     {
         return view('genre_view')
         ->with('books', Book::check()
+        ->with('authors', 'genres', 'reviews')
         ->whereHas('genres', function ($query) use($genre) {
             $query->where('genre_id', $genre);
         })

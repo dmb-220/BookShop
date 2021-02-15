@@ -52,7 +52,7 @@
 </table>
 {{-- Pagination --}}
 <div class="d-flex justify-content-center">
-    {!! $reviews->links() !!}
+    {{ $reviews->links() }}
 </div>
 </div>
 </div>

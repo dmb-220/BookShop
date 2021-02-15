@@ -16,7 +16,8 @@ class ReportController extends Controller
     public function index()
     {
         return view('admin.report.index')
-        ->with('reports', Report::paginate(20));
+        ->with('reports', Report::with('user', 'book')
+            ->paginate(20));
     }
 
     /**

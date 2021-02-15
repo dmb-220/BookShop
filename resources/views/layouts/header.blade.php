@@ -60,7 +60,8 @@
                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(64px, 46px, 0px);">
                         @if (Auth::user()->isAdmin())
                         <a class="dropdown-item" href="{{ route('admin.admin.index') }}">Profile setting</a>
-                        <a class="dropdown-item" href="{{ route('admin.books.index') }}">Books </a>
+                        <a class="dropdown-item" href="{{ route('user.books.index') }}">My Books </a>
+                        <a class="dropdown-item" href="{{ route('admin.books.index') }}">All Books </a>
                         <a class="dropdown-item" href="{{ route('admin.genres.index') }}">Genres </a>
                         <a class="dropdown-item" href="{{ route('admin.authors.index') }}">Authors </a>
                         <a class="dropdown-item" href="{{ route('admin.reviews.index') }}">Reviews </a>

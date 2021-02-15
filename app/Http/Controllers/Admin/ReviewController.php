@@ -17,7 +17,8 @@ class ReviewController extends Controller
     public function index()
     {
         return view('admin.review.index')
-        ->with('reviews', Review::paginate(20));
+        ->with('reviews', Review::with('user', 'book')
+            ->paginate(20));
     }
 
     /**

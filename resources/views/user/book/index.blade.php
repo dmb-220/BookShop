@@ -8,6 +8,12 @@
         </div>
     </div>
 @endif
+{{--Discount--}}
+@if ($errors->has('discount'))
+<div class="alert alert-danger">
+    {{ $errors->first('discount') }}
+</div>
+@endif 
 
 
 <div class="card">
@@ -20,7 +26,7 @@
             <div class="row no-gutters">
                 <aside class="col-md-3">
                     <a href="{{ asset("storage/".$book->cover) }}" class="img-wrap">
-                        @if ($book->created_at_difference() <= 7)
+                        @if ($book->is_new)
                             <span class="badge badge-danger"> NEW </span>
                         @endif
                         <img src="{{ asset("storage/".$book->cover) }}">
@@ -28,13 +34,22 @@
                 </aside>
                 <div class="col-md-6">
                     <div class="info-main">
-                        {{ $book->getAuthorsList($book->authors) }}
+                        @if ($book->is_new)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-info"><b>NEW</b></div>
+                                </span>
+                                @endif
+                                @if ($book->discount)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
+                                </span>
+                                @endif
+
+                        {{ $book->AuthorsList($book->authors) }}
                         <div class="h5 title"> {{ $book->title }}</div>
-                        @foreach($book->genres as $genre)
-                        {{ $genre->genre }}{{ $loop->last ? '' : ','}}
-                        @endforeach
+                        {{ $book->GenreList($book->genres) }}
                         <hr>
-                        {!! \Illuminate\Support\Str::words($book->description, 30,' ...')  !!}
+                        {{ $book->strDescription }}
                     </div>
                 </div>
 
@@ -48,7 +63,23 @@
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger btn-block" onclick="return confirm('Delete book?');" type="submit">Delete</button>
                         </form>
+                        <hr>
 
+                        <form action="{{ route('user.books.update', $book->id) }}" method="POST">
+                            @csrf
+                            @method('PATCH')
+                            <div class="input-group w-100">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"> <i class="fa fa-percent"></i> </span>
+                                 </div>
+                                <input type="text" name="discount" value="{{ $book->discount }}" class="form-control" style="width:55%;" placeholder="Enter discount 10 - 90 %">
+                                <div class="input-group-append">
+                                  <button class="btn btn-primary" type="submit">
+                                    Discount
+                                  </button>
+                                </div> 
+                            </div>
+                        </form>
                     </div>
                 </aside>
 
@@ -59,9 +90,10 @@
     @endforelse
     {{-- Pagination --}}
     <div class="d-flex justify-content-center">
-        {!! $books->links() !!}
+        {{ $books->links() }}
     </div>
     </div>
+
 </div>
 
 @endsection 

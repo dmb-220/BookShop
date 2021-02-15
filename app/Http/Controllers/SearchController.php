@@ -22,9 +22,15 @@ class SearchController extends Controller
 
         $books = Book::check()
         ->where( function($query) use ($keyword) {
+            //title
             $query->where('title','LIKE', $keyword);
+            //authors
             $query->orWhereHas('authors' ,function($query) use ($keyword) {
                 $query->where('name', 'LIKE', $keyword);
+            });
+            //genre
+            $query->orWhereHas('genres' ,function($query) use ($keyword) {
+                $query->where('genre', 'LIKE', $keyword);
             });
             })->paginate(25);
         

@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">New book create</div>
                 <div class="card-body">
@@ -32,15 +32,20 @@
                         <div class="form-group row"> 
                             <label class="col-md-4 col-form-label text-md-right" for="genre">Genre</label>  
                             <div class="col-md-8">
-                                    @forelse ($genres as $genre)
-                                    <div class="form-check form-check-inline">
-                                        <input class="form-check-input" type="checkbox" name="genre[]" value="{{$genre->id}}"
-                                        @if (in_array($genre->id, old('genre', []))) checked @endif >
-                                        <label class="form-check-label">{{$genre->genre }}</label>
+                                <div class="row">
+                                    @forelse ($genres->split($genres->count()/3) as $row)
+                                    <div class="col-md-4">
+                                        @foreach($row as $genre)
+                                        <label class="custom-control custom-checkbox">
+                                            <input class="custom-control-input"  type="checkbox" name="genre[]" value="{{$genre->id}}">
+                                            <div class="custom-control-label">{{$genre->genre }}</div>
+                                          </label>
+                                        @endforeach
                                     </div>
                                     @empty  
-                                    No genres    
+                                    <option>No genres</option>    
                                     @endforelse
+                                </div>
                                 <small class="form-text text-muted">You can choose from several genres</small>
                                 @if ($errors->has('genre'))
                                 <span class="text-danger">{{ $errors->first('genre') }}</span>

@@ -191,7 +191,7 @@
                             @endif
                         <div class="text">
                             <span class="date text-muted float-md-right">
-                                {{ \Carbon\Carbon::parse($review->created_at)->format('Y-m-d') }}
+                                {{ $review->created_at->format('Y-m-d') }}
                             </span>  
                             <h6 class="mb-1">{{ $review->user->name}}</h6>
                             <ul class="rating-stars">

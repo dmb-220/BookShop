@@ -3,7 +3,7 @@
 @section('content')
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <div class="card-header">Book edit</div>
                 <div class="card-body">
@@ -34,14 +34,20 @@
                         <div class="form-group row"> 
                             <label class="col-md-4 col-form-label text-md-right" for="genre">Genre</label>  
                             <div class="col-md-8">                           
-                                    @forelse ($genres as $genre)
-                                        <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="checkbox" name="genre[]" {{ $book->checkGenres($genre->id, $book->genres) }} value="{{$genre->id}}">
-                                            <label class="form-check-label">{{$genre->genre }}</label>
-                                        </div>
+                                <div class="row">
+                                    @forelse ($genres->split($genres->count()/3) as $row)
+                                    <div class="col-md-4">
+                                        @foreach($row as $genre)
+                                        <label class="custom-control custom-checkbox">
+                                            <input class="custom-control-input"  type="checkbox" name="genre[]" {{ $book->checkGenres($genre->id, $book->genres) }} value="{{$genre->id}}">
+                                            <div class="custom-control-label">{{$genre->genre }}</div>
+                                          </label>
+                                        @endforeach
+                                    </div>
                                     @empty  
                                     <option>No genres</option>    
                                     @endforelse
+                                </div>
                                 @if ($errors->has('genre'))
                                 <span class="text-danger">{{ $errors->first('genre') }}</span>
                                 @endif     

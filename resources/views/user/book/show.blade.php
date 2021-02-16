@@ -60,8 +60,12 @@
                                     <small class="label-rating text-muted">132 reviews</small>
                                 </div>                   
                                 <div class="mb-3">
-                                    <var class="price h4">$8.15</var>
-                                    <span class="text-muted">$18.15</span>
+                                    @if ($book->discount)
+                                    <var class="price h4">{{ $book->discount_sum }} $</var>
+                                    <span class="text-muted">{{ $book->price }} $</span>
+                                @else
+                                <var class="price h4">{{ $book->price}} $</var>
+                                @endif 
                                 </div>
                                 <p>{{$book->description}}</p>
                             </article>
@@ -84,7 +88,7 @@
                             @endif
                         <div class="text">
                             <span class="date text-muted float-md-right">
-                                {{ \Carbon\Carbon::parse($review->created_at)->format('Y-m-d') }}
+                                {{ $review->created_at->format('Y-m-d') }}
                             </span>  
                             <h6 class="mb-1">{{ $review->user->name}}</h6>
                         </div>

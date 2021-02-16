@@ -8,14 +8,21 @@
             <div class="row no-gutters">
                 <aside class="col-md-2">
                     <a href="{{ asset("storage/".$book->cover) }}" class="img-wrap">
-                        @if ($book->is_new)
-                            <span class="badge badge-danger"> NEW </span>
-                        @endif
                         <img src="{{ asset("storage/".$book->cover) }}">
                     </a>
                 </aside>
                 <div class="col-md-10">
                     <div class="info-main">
+                        @if ($book->is_new)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-info"><b>NEW</b></div>
+                                </span>
+                                @endif
+                                @if ($book->discount)
+                                <span class="topbar">
+                                    <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
+                                </span>
+                                @endif
                         {{ $book->AuthorsList($book->authors) }}
                         <a href="{{ route('books.show', $book->id) }}">
                             <div class="h5 title"> {{ $book->title }}</div>
@@ -51,7 +58,7 @@
     @endforelse
     {{-- Pagination --}}
     <div class="d-flex justify-content-center">
-
+        {{ $books->links() }}
     </div>
     </div>
 </div>

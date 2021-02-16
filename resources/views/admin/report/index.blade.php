@@ -32,7 +32,7 @@
         <td>{{ $report->user->name}}</td>
         <td><a href="{{ route('admin.reports.show', $report->id) }}">{!! \Illuminate\Support\Str::words($report->report, 10,' ...')  !!}</a></td>
         <td><a href="{{ route('admin.books.show', $report->book->id) }}">{{ $report->book->title }}</a></td>
-        <td>{{ \Carbon\Carbon::parse($report->created_at)->format('Y-m-d') }}</td>
+        <td>{{ $report->created_at->format('Y-m-d') }}</td>
         <td class="text-right">
             {{-- @if(!$review->aproved)
                <form action="{{ route('admin.reviews.update', $review->id)}}" method="post">

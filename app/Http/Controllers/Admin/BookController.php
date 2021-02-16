@@ -21,7 +21,7 @@ class BookController extends Controller
         return view('admin.book.index')
         ->with('books', 
         Book::with('authors', 'genres', 'reviews')
-        ->latest('id')
+        ->latest()
         ->paginate(10));
     }
 
@@ -164,12 +164,14 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        $book->genres()->detach();
+        $book->authors()->detach();
+        
         $book->delete();
-        $book->authors->detach();
-        $book->genres->detach();
-            //gristam i pradini puslapi
-            //siunciam pranesima kad irasymas atliktas
-            return redirect()->route('admin.books.index')
-            ->with('success','Book deleted successfully.');
+        
+        //gristam i pradini puslapi
+        //siunciam pranesima kad irasymas atliktas
+        return redirect()->route('admin.books.index')
+        ->with('success','Book deleted successfully.');
     }
 }

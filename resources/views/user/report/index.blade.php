@@ -28,7 +28,7 @@
     <tr>
         <td><a href="{{ route('user.reports.show', $report->id) }}">{{ $report->str_report}}</a></td>
         <td><a href="{{ route('user.books.show', $report->book->id) }}">{{ $report->book->title }}</a></td>
-        <td>{{ \Carbon\Carbon::parse($report->created_at)->format('Y-m-d') }}</td>
+        <td>{{ $report->created_at->format('Y-m-d') }}</td>
         <td class="text-right">
             {{-- @if(!$review->aproved)
                <form action="{{ route('admin.reviews.update', $review->id)}}" method="post">

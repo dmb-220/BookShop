@@ -13,6 +13,7 @@ class Review extends Model
         'user_id','book_id', 'reviews', 'rating'
     ];
 
+
     public function getStrReviewAttribute(){
         return Str::words($this->reviews, '30');
     }

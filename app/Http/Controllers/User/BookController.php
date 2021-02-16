@@ -170,10 +170,14 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
+        $book->genres()->detach();
+        $book->authors()->detach();
+        
         $book->delete();
-            //gristam i pradini puslapi
-            //siunciam pranesima kad irasymas atliktas
-            return redirect()->route('user.books.index')
-            ->with('success','Book deleted successfully.');
+        
+        //gristam i pradini puslapi
+        //siunciam pranesima kad irasymas atliktas
+        return redirect()->route('user.books.index')
+        ->with('success','Book deleted successfully.');
     }
 }

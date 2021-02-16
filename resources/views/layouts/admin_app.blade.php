@@ -21,10 +21,8 @@
     <!-- fonticon -->
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
-	<link href="{{ asset('css/bootstrap.css') }}" rel="stylesheet" type="text/css"/>
 	<link href="{{ asset('css/ui.css') }}" rel="stylesheet" type="text/css"/>
 	<link href="{{ asset('css/responsive.css') }}" rel="stylesheet" />
-	<link href="{{ asset('css/style.css') }}" rel="stylesheet" />
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="{{ asset('css/my.css') }}" rel="stylesheet">

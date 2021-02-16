@@ -71,7 +71,7 @@
     @endforelse
     {{-- Pagination --}}
     <div class="d-flex justify-content-center">
-        {!! $books->links() !!}
+        {{ $books->links() }}
     </div>
     </div>
 </div>

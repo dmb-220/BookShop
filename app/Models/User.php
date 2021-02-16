@@ -20,7 +20,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'birthday'
+        'birthday',
+        'avatar'
     ];
 
     /**
@@ -46,8 +47,16 @@ class User extends Authenticatable
         return (auth()->user()->role_id == 1);
     }
 
-    public function isRegular(){
-        return (auth()->user()->role_id != 1);
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
+
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
+
+    public function reports(){
+        return $this->hasMany(Report::class);
     }
 
     public function books(){

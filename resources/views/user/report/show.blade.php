@@ -15,10 +15,14 @@
             <div class="col-md-12">
                 <article class="box mb-3">
                     <div class="icontext w-100">
-                        <img src="{{ asset("img/avatar.png") }}" class="img-xs icon rounded-circle">
+                        @if($report->user->avatar)
+                            <img src="{{ asset("storage/avatar/".$report->user->avatar) }}" class="img-xs icon rounded-circle">
+                            @else
+                            <img src="{{ asset("img/avatar.png") }}" class="img-xs icon rounded-circle">
+                            @endif
                         <div class="text">
                             <span class="date text-muted float-md-right">
-                                {{ \Carbon\Carbon::parse($report->created_at)->format('Y-m-d') }}
+                                {{ $report->created_at->format('Y-m-d') }}
                             </span>  
                             <h6 class="mb-1">{{ $report->user->name}}</h6>
                         </div>

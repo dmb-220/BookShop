@@ -77,10 +77,14 @@
                 @forelse ($book->reviews as $review) 
                 <article class="box mb-3">
                     <div class="icontext w-100">
-                        <img src="{{ asset("img/avatar.png") }}" class="img-xs icon rounded-circle">
+                        @if($book->user->avatar)
+                            <img src="{{ asset("storage/avatar/".$book->user->avatar) }}" class="img-xs icon rounded-circle">
+                            @else
+                            <img src="{{ asset("img/avatar.png") }}" class="img-xs icon rounded-circle">
+                            @endif
                         <div class="text">
                             <span class="date text-muted float-md-right">
-                                {{ \Carbon\Carbon::parse($review->created_at)->format('Y-m-d') }}
+                                {{ $review->created_at->format('Y-m-d') }}
                             </span>  
                             <h6 class="mb-1">{{ $review->user->name}}</h6>
                         </div>

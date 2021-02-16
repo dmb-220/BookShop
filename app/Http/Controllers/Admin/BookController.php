@@ -170,10 +170,9 @@ class BookController extends Controller
         $book->authors()->detach();
 
         $book->reviews()->delete();
-        
-        $book->delete();
+        $book->report()->delete();
 
-        //$book->reports->delete();
+        $book->delete();
         
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas

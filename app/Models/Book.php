@@ -39,20 +39,31 @@ class Book extends Model
 
 
     public function AuthorsList($author_list){
+        $authors = array();
         foreach($author_list as $list){
             $authors[] = $list['name'];
         }
-        $authors = implode(', ', $authors);
+        $author = "";
+        if(count($authors)){
+            $author = implode(', ', $authors);
+        }
         
-        return $authors;
+        return $author;
     }
     public function GenreList($genre_list){
+        //sukuriam tuscia masyva, nes esant klaida
+        //nepaduodama reiksme, ar neturi reiksmiu
+        $genres = array();
         foreach($genre_list as $list){
             $genres[] = $list['genre'];
         }
-        $genres = implode(', ', $genres);
+        //susikuriam stringa kad reik nera
+        $genre = "";
+        if(count($genres)){
+            $genre = implode(', ', $genres);
+        }
         
-        return $genres;
+        return $genre;
     }
 
 

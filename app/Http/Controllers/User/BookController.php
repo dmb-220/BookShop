@@ -25,7 +25,7 @@ class BookController extends Controller
         ->where('user_id', Auth::id())
         ->orderBy('check', 'asc')
         ->latest()
-        ->paginate(10));
+        ->paginate(20));
     }
 
     /**
@@ -105,11 +105,13 @@ class BookController extends Controller
                     'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
                 ]);
 
-
-                if(Storage::exists('public/'.$book->cover)){
-                    Storage::delete('public/'.$book->cover);
-                }else{      
-                    dd('File does not exists.');
+                //kad neissitrintu default cover
+                if($book->cover != 'cover.png'){
+                    if(Storage::exists('public/'.$book->cover)){
+                        Storage::delete('public/'.$book->cover);
+                    }else{      
+                        dd('File does not exists.');
+                    }
                 }
 
                 //ikeliam cover nuotrauka
@@ -172,8 +174,12 @@ class BookController extends Controller
     {
         $book->genres()->detach();
         $book->authors()->detach();
+
+        $book->reviews()->delete();
         
         $book->delete();
+
+        //$book->reports->delete();
         
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas

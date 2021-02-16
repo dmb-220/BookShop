@@ -20,7 +20,7 @@ class GenreController extends Controller
         ->whereHas('genres', function ($query) use($genre) {
             $query->where('genre_id', $genre);
         })
-        ->latest('id')
+        ->latest()
         ->paginate(20));
     }
 

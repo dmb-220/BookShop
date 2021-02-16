@@ -58,17 +58,17 @@
                             </div>
                         </figcaption>
                     </figure>
-                </div> <!-- col.// -->
+                </div>
                 @endforeach
+            </div>
+
                 {{-- Pagination --}}
                 <div class="d-flex justify-content-center">
                     {{ $books->links() }}
                 </div>
-            </div> <!-- row end.// -->
-
     </div>
     
-    </div> <!-- container .//  -->
+    </div>
     </section>
 
 @endsection

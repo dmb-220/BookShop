@@ -14,37 +14,35 @@ class GenresSeeder extends Seeder
      */
     public function run()
     {
-        $roles = array(
-            'Fantasy',
-            'Adventure',
-            'Romance',
-            'Contemporary',
-            'Dystopian',
-            'Mystery',
-            'Horror',
-            'Thriller',
-            'Paranormal',
-            'Historical Fiction',
-            'Science Fiction',
-            'Memoir',
-            'Cooking',
-            'Art',
-            'Self-help / Personal',
-            'Development',
-            'Motivational',
-            'Health',
-            'History',
-            'Travel',
-            'Guide / How-to',
-            'Families & Relationships',
-            'Humor',
-            'Childrens',
+        $genres = array(
+            "Fantasy",
+            "Adventure",
+            "Romance",
+            "Contemporary",
+            "Dystopian",
+            "Mystery",
+            "Horror",
+            "Thriller",
+            "Paranormal",
+            "Historical Fiction",
+            "Science Fiction",
+            "Memoir",
+            "Cooking",
+            "Art",
+            "Self-help / Personal",
+            "Development",
+            "Motivational",
+            "Health",
+            "History",
+            "Travel",
+            "Guide / How-to",
+            "Families & Relationships",
+            "Humor",
+            "Childrens",
         );
 
-        foreach($roles as $role){
-            Genre::create([
-                'genre' => $role,
-            ]);
+        foreach($genres as $genre){
+            Genre::create(["genre" => $genre]);
         }
     }
 }

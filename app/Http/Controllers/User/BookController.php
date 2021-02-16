@@ -179,7 +179,16 @@ class BookController extends Controller
         $book->report()->delete();
 
         $book->delete();
-        
+
+        //kad neissitrintu default cover
+        if($book->cover != 'cover.png'){
+            if(Storage::exists('public/'.$book->cover)){
+                Storage::delete('public/'.$book->cover);
+            }else{      
+                dd('File does not exists.');
+            }
+        }
+          
         //gristam i pradini puslapi
         //siunciam pranesima kad irasymas atliktas
         return redirect()->route('user.books.index')

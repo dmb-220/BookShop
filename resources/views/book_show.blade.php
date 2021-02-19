@@ -35,10 +35,10 @@
                                     <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
                                 </span>
                                 @endif
-                                {{ $book->AuthorsList($book->authors) }}
+                                {{ $book->ArrayToString($book->authors) }}
                                 <h2 class="title">{{$book->title}}</h2>
                                 <h6>
-                                    {{ $book->GenreList($book->genres) }}
+                                    {{ $book->ArrayToString($book->genres) }}
                                 </h6>
                                 <div class="rating-wrap my-3">
                                     <ul class="rating-stars">
@@ -62,11 +62,11 @@
                                 </div>
                                 <p>{{$book->description}}</p>
                                 <hr>
-                                @if (Auth::id())
+                                @if (auth()->id())
                                 <button type="button" class="btn  btn-danger" data-toggle="modal" data-target="#report"> Report book </button>
                                 @endif
-                                <a href="#" class="btn  btn-primary"> Add Wish List </a>
-                                <a href="#" class="btn  btn-outline-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>
+                                {{--<a href="#" class="btn  btn-primary"> Add Wish List </a>
+                                <a href="#" class="btn  btn-outline-primary"> <span class="text">Add to cart</span> <i class="fas fa-shopping-cart"></i>  </a>--}}
                             </article>
                         </main>
                     </div>
@@ -126,6 +126,7 @@
 
         <div class="row">  
             <div class="col-md-12">
+                @if (auth()->id())
                 <article class="box mb-3">
                 <form action="{{ route('user.reviews.store') }}" method="POST">
                     @csrf
@@ -180,6 +181,7 @@
                 </div>
                 </form>
                 </article>
+                @endif
 
                 @forelse ($book->reviews as $review) 
                 <article class="box mb-3">

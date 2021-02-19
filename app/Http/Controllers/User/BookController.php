@@ -7,7 +7,6 @@ use App\Models\Book;
 use App\Models\Genre;
 use App\Models\Author;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class BookController extends Controller
@@ -19,13 +18,13 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('user.book.index')
-        ->with('books', 
-        Book::with('authors', 'genres', 'reviews')
-        ->where('user_id', Auth::id())
-        ->orderBy('check', 'asc')
-        ->latest()
-        ->paginate(20));
+        $books = Book::with('authors', 'genres', 'reviews')
+            ->where('user_id', auth()->id())
+            ->orderBy('approved')
+            ->latest()
+            ->paginate(20);
+
+        return view('user.book.index', compact('books'));
     }
 
     /**
@@ -35,7 +34,10 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $genres = Genre::orderBy('name')
+            ->get();
+
+        return view('user.book_create', compact('genres'));
     }
 
     /**
@@ -46,7 +48,36 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => 'required|min:5',
+            'author' => 'required|min:10',
+            'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'genre' => 'required|array',
+            'price' => 'required|regex:/^\d+(\.\d{1,2})?$/',
+            'description' => 'required|min:20',
+        ]);
+
+        $imageName = time().'.'.$request->cover->extension();  
+        $request->cover->storeAs('public', $imageName);
+
+        $authors = explode(",", $request->author);
+
+        $book_id = Book::create($request->all() + [
+            'cover' => $imageName,
+            'user_id' => auth()->id()
+        ]);
+
+        $book_id->genres()->sync($request->genre);
+
+        foreach($authors as $author){
+            $author_data = Author::updateOrCreate(['name' => $author]);
+            $author_id[] = $author_data->id;
+        }
+
+        $book_id->authors()->sync($author_id);
+
+        return redirect()->route('index')
+        ->with('success','Book created successfully.');
     }
 
     /**
@@ -68,10 +99,10 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('user.book.edit', compact('book'))
-        ->with('genres', 
-            Genre::orderBy('genre', 'asc')
-            ->get());
+        $genres = Genre::orderBy('name')
+            ->get();
+
+        return view('user.book.edit', compact('book', 'genres'));
     }
 
     /**
@@ -83,8 +114,6 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //var_dump($request->all());
-        if($request->_method == 'PUT'){
             $request->validate([
                 'title' => 'required|min:5',
                 'author' => 'required|min:10',
@@ -93,75 +122,63 @@ class BookController extends Controller
                 'description' => 'required|min:20',
             ]);
 
-            //pasiimam request reiksmes
             $requestData = $request->all();
-            $requestData['check'] = 0;
-            //jei neuzkeliama naujas cover
+
             $requestData['cover'] = $book->cover;
 
             if($request->cover){
-                //JEI NAUJAI IKELIAMAS cover
                 $request->validate([
                     'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
                 ]);
-
-                //kad neissitrintu default cover
+                
                 if($book->cover != 'cover.png'){
                     if(Storage::exists('public/'.$book->cover)){
                         Storage::delete('public/'.$book->cover);
-                    }else{      
-                        dd('File does not exists.');
                     }
                 }
 
-                //ikeliam cover nuotrauka
                 $imageName = time().'.'.$request->cover->extension();  
                 $request->cover->storeAs('public', $imageName);
 
-                //pridedam trukstamas reiksmes, irasymui i DB
-                //naujas cover
                 $requestData['cover'] = $imageName;
             }
-            //tikrinam vienas Autorius ar keli
-            //atskiriame kableliu
+
             $authors = explode(",", $request->author);
 
-            //var_dump($authors);
-            //irasom i duomenu baze
             $book->update($requestData);
-            //knygai priskiriame zanrus
-            $book->genres()->sync($request->genre);
 
-            //Irasom autorius
-            //var_dump($authors);
+            $book->genres()->sync($request->genre);
 
             foreach($authors as $author){
                 $author_data = Author::updateOrCreate(['name' => trim($author)], ['name' => trim($author)]);
-                //pasiimam autoriu ID
                 $author_id[] = $author_data->id;
             }
 
-            //knygai priskiriame autorius
             $book->authors()->sync($author_id);
-            //gristam i pradini puslapi
-            //siunciam pranesima kad irasymas atliktas
-            return redirect()->route('user.books.index')
-            ->with('success','Book update successfully.');
-            
-        }
 
-        //knygos patvirtinimas
-        if($request->_method == 'PATCH'){
+            return redirect()->route('user.books.index')
+            ->with('success','Book update successfully.');  
+
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Book  $book
+     * @return \Illuminate\Http\Response
+     */
+
+    public function discount_update(Request $request, Book $book)
+    {
             $request->validate([
                 'discount' => 'required|numeric',
             ]);
 
             $book->update(array('discount' => $request->discount));
-            //gristam i pradini puslapi
-            //siunciam pranesima kad irasymas atliktas
+
             return redirect()->route('user.books.index')
             ->with('success','Book discount add successfully.');
-            }
     }
 
     /**
@@ -180,17 +197,12 @@ class BookController extends Controller
 
         $book->delete();
 
-        //kad neissitrintu default cover
         if($book->cover != 'cover.png'){
             if(Storage::exists('public/'.$book->cover)){
                 Storage::delete('public/'.$book->cover);
-            }else{      
-                dd('File does not exists.');
             }
         }
           
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
         return redirect()->route('user.books.index')
         ->with('success','Book deleted successfully.');
     }

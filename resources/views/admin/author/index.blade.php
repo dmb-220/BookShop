@@ -17,7 +17,6 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col"></th>
           <th scope="col">Author</th>
           <th scope="col">Book</th>
           <th scope="col">Last modified</th>
@@ -27,10 +26,9 @@
     <tbody>
     @forelse ($authors as $author)
     <tr>
-        <td>{{ $author->id }}</td>
         <td>{{ $author->name }}</td>
         <td>{{ $author->books->count() }}</td>
-        <td>{{ \Carbon\Carbon::parse($author->created_at)->format('Y-m-d') }}</td>
+        <td>{{ $author->created_at->format('Y-m-d') }}</td>
         <td class="text-right">
             <form action="{{ route('admin.authors.destroy', $author->id)}}" method="post">
                 @csrf

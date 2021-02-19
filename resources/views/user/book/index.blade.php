@@ -8,6 +8,7 @@
         </div>
     </div>
 @endif
+
 {{--Discount--}}
 @if ($errors->has('discount'))
 <div class="alert alert-danger">
@@ -45,9 +46,9 @@
                                 </span>
                                 @endif
 
-                        {{ $book->AuthorsList($book->authors) }}
+                        {{ $book->ArrayToString($book->authors) }}
                         <div class="h5 title"> {{ $book->title }}</div>
-                        {{ $book->GenreList($book->genres) }}
+                        {{ $book->ArrayToString($book->genres) }}
                         <hr>
                         {{ $book->strDescription }}
                     </div>
@@ -55,6 +56,12 @@
 
                 <aside class="col-sm-3">
                     <div class="info-aside">
+                        @if (!$book->approved)
+                        <div class="alert alert-success">
+                        Not Approved, waiting
+                        </div>
+                        @endif
+
                         <a href="{{ route('user.books.show', $book->id) }}" class="btn btn-sm btn-info btn-block"> Details </a>
                         <a href="{{ route('user.books.edit', $book->id) }}" class="btn btn-sm btn-primary btn-block"> Edit </a>
                         <br>
@@ -65,9 +72,9 @@
                         </form>
                         <hr>
 
-                        <form action="{{ route('user.books.update', $book->id) }}" method="POST">
+                        <form action="{{ route('user.discount_update', $book) }}" method="POST">
                             @csrf
-                            @method('PATCH')
+                            @method('PUT')
                             <div class="input-group w-100">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text"> <i class="fa fa-percent"></i> </span>
@@ -80,6 +87,7 @@
                                 </div> 
                             </div>
                         </form>
+
                     </div>
                 </aside>
 

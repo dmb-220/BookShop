@@ -35,30 +35,22 @@
                                 </span>
                                 @endif
                                 
-                                @foreach($book->authors as $author)
-                                {{ $author->name }}{{ $loop->last ? '' : ','}}
-                                @endforeach
+                                {{ $book->ArrayToString($book->authors) }}
                                 <h2 class="title">{{$book->title}}</h2>
                                 <h6>
-                                    @foreach($book->genres as $genre)
-                                    {{ $genre->genre }}{{ $loop->last ? '' : ','}}
-                                    @endforeach
+                                    {{ $book->ArrayToString($book->genres) }}
                                 </h6>
                                 <div class="rating-wrap my-3">
                                     <ul class="rating-stars">
-                                        <li style="width:80%" class="stars-active">
-                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                        <li style="width:{{ $book->allBookRating($book->reviews) }}%" class="stars-active">
+                                            <img src="{{ asset("img/stars-active.svg") }}" alt="">
                                         </li>
                                         <li>
-                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i> <i class="fa fa-star"></i>
-                                            <i class="fa fa-star"></i>
+                                            <img src="{{ asset("img/starts-disable.svg") }}" alt="">
                                         </li>
                                     </ul>
-                                    <small class="label-rating text-muted">132 reviews</small>
-                                </div>                   
+                                    <small class="label-rating text-muted">{{ $book->reviews->count() }} reviews</small>
+                                </div>         
                                 <div class="mb-3">
                                     @if ($book->discount)
                                     <var class="price h4">{{ $book->discount_sum }} $</var>

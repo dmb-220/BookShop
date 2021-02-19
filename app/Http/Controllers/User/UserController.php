@@ -18,10 +18,6 @@ class UserController extends Controller
     public function index()
     {
 
-        return view('user.index')
-        ->with('user', User::where('id', auth()->user()->id)
-            ->with('role')
-            ->first());
     }
 
     /**
@@ -64,7 +60,11 @@ class UserController extends Controller
      */
     public function edit($user)
     {
-        //
+        $user = User::where('id', auth()->id())
+            ->with('role')
+            ->first();
+
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -76,57 +76,48 @@ class UserController extends Controller
      */
     public function update(Request $request, $user)
     {
-        if($request->_method == 'PUT'){
-            //Atliekam validacija
-            $request->validate([
-                'old-password' => ['required', new MatchOldPassword],
-                'password' => ['required'],
-                'password-confirm' => ['same:password'],
-            ]);
-    
-            User::auth()->user()->update(['password'=> Hash::make($request->password)]);
+        $request->validate([
+            'user_name' => 'required|min:3',
+            'email' => 'required|email',
+            'birthday' => 'required',
+        ]);
 
-            //gristam i pradini puslapi
-            //siunciam pranesima kad irasymas atliktas
-            return redirect()->route('user.user.index')
-            ->with('success','Password change successfully.');
+        $imageName = "";
+
+        if($request->avatar){
+            $request->validate([
+                'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:512'
+            ]);
+        
+            $imageName = time().'.'.$request->avatar->extension();  
+            $request->avatar->storeAs('public/avatar', $imageName);
         }
 
-        if($request->_method == 'PATCH'){
-            //Atliekam validacija
-            $request->validate([
-                'user_name' => 'required|min:3',
-                'email' => 'required|email',
-                'birthday' => 'required',
+        auth()->user()->update([
+            'name' => $request->user_name,
+            'email' => $request->email,
+            'birthday' => $request->birthday,
+            'avatar' => $imageName
             ]);
 
-            $imageName = "";
-
-            if($request->avatar){
-                //JEI NAUJAI IKELIAMAS cover
-                $request->validate([
-                    'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:512'
-                ]);
-                //reiketu padaryti seno istrynima
-
-                //ikeliam cover nuotrauka
-                $imageName = time().'.'.$request->avatar->extension();  
-                $request->avatar->storeAs('public/avatar', $imageName);
-            }
-    
-            User::find(auth()->user()->id)->update([
-                'name' => $request->user_name,
-                'email' => $request->email,
-                'birthday' => $request->birthday,
-                'avatar' => $imageName
-                ]);
-
-            //gristam i pradini puslapi
-            //siunciam pranesima kad irasymas atliktas
             return redirect()->route('user.user.index')
             ->with('success','Account info change successfully.');
-        }
     }
+    
+    public function password_update(Request $request, $user)
+    {
+        $request->validate([
+            'old-password' => ['required', new MatchOldPassword],
+            'password' => ['required'],
+            'password-confirm' => ['same:password'],
+        ]);
+
+       auth()->user()->update(['password'=> Hash::make($request->password)]);
+
+        return redirect()->route('user.user.index')
+        ->with('success','Password change successfully.');
+    }
+
 
     /**
      * Remove the specified resource from storage.

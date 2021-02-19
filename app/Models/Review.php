@@ -27,7 +27,6 @@ class Review extends Model
     }
 
     public function viewRating($rating){
-        //if(!$rating){}
         return 20*$rating;
     }
 }

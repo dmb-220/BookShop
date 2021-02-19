@@ -18,11 +18,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        return view('admin.book.index')
-        ->with('books', 
-        Book::with('authors', 'genres', 'reviews')
-        ->latest()
-        ->paginate(20));
+        $books = Book::with('authors', 'genres', 'reviews')
+            ->latest()
+            ->paginate(20);
+
+        return view('admin.book.index', compact('books'));
     }
 
     /**
@@ -65,10 +65,10 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        return view('admin.book.edit', compact('book'))
-        ->with('genres', 
-            Genre::orderBy('genre', 'asc')
-            ->get());
+        $genres = Genre::orderBy('name')
+            ->get();
+
+        return view('admin.book.edit', compact('book', 'genres'));
     }
 
     /**
@@ -80,8 +80,6 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //Knygos redagavimas
-        if($request->_method == 'PUT'){
             $request->validate([
                 'title' => 'required|min:5',
                 'author' => 'required|min:10',
@@ -90,72 +88,54 @@ class BookController extends Controller
                 'description' => 'required|min:20',
             ]);
 
-            //pasiimam request reiksmes
             $requestData = $request->all();
-            $requestData['check'] = 0;
-            //jei neuzkeliama naujas cover
             $requestData['cover'] = $book->cover;
 
             if($request->cover){
-                //JEI NAUJAI IKELIAMAS cover
                 $request->validate([
                     'cover' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
                 ]);
 
-                 //kad neissitrintu default cover
                 if($book->cover != 'cover.png'){
                     if(Storage::exists('public/'.$book->cover)){
                         Storage::delete('public/'.$book->cover);
-                    }else{      
-                        dd('File does not exists.');
                     }
                 }
 
-
-                //ikeliam cover nuotrauka
                 $imageName = time().'.'.$request->cover->extension();  
                 $request->cover->storeAs('public', $imageName);
 
-                //pridedam trukstamas reiksmes, irasymui i DB
-                //naujas cover
                 $requestData['cover'] = $imageName;
             }
 
-            //tikrinam vienas Autorius ar keli
-            //atskiriame kableliu
             $authors = explode(",", $request->author);
 
-            //var_dump($authors);
-            //irasom i duomenu baze
             $book->update($requestData);
-            //knygai priskiriame zanrus
+
             $book->genres()->sync($request->genre);
 
-            //Irasom autorius
-            //var_dump($authors);
 
             foreach($authors as $author){
-                $author_data = Author::updateOrCreate(['name' => trim($author)], ['name' => trim($author)]);
-                //pasiimam autoriu ID
+                $author_data = Author::updateOrCreate(
+                    ['name' => trim($author)], 
+                    ['name' => trim($author)]
+                );
                 $author_id[] = $author_data->id;
             }
 
-            //knygai priskiriame autorius
             $book->authors()->sync($author_id);
-            //gristam i pradini puslapi
-            //siunciam pranesima kad irasymas atliktas
+
             return redirect()->route('admin.books.index')
             ->with('success','Book update successfully.');
-        }
+    }
 
-        //knygos patvirtinimas
-        if($request->_method == 'PATCH'){
-        $book->update(array('check' => 1));
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
+    public function approved_update(Book $book)
+    {
+        $book->update(array('approved' => 1));
+
         return redirect()->route('admin.books.index')
         ->with('success','Book verify successfully.');
-        }
+
     }
 
     /**
@@ -178,8 +158,6 @@ class BookController extends Controller
         if($book->cover != 'cover.png'){
             if(Storage::exists('public/'.$book->cover)){
                 Storage::delete('public/'.$book->cover);
-            }else{      
-                dd('File does not exists.');
             }
         }
         

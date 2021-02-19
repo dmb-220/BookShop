@@ -13,15 +13,15 @@ class Book extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id','title', 'cover', 'description', 'check', 'price', 'discount'
+        'user_id','title', 'cover', 'description', 'approved', 'price', 'discount'
     ];
 
     public function getIsNewAttribute(){
         return now()->subDays(7) <= $this->created_at;
      }
 
-    public function scopeCheck($query){
-        $query->where('check', 1);
+    public function scopeApproved($query){
+        $query->where('approved', 1);
     }
 
     public function getStrTitleAttribute(){
@@ -38,49 +38,31 @@ class Book extends Model
     }
 
 
-    public function AuthorsList($author_list){
-        $authors = array();
-        foreach($author_list as $list){
-            $authors[] = $list['name'];
+    public function ArrayToString($list){
+       $array = array();
+        foreach($list as $row){
+            $array[] = $row['name'];
         }
-        $author = "";
-        if(count($authors)){
-            $author = implode(', ', $authors);
+        $string = "";
+        if(count($array)){
+            $string = implode(', ', $array);
         }
-        
-        return $author;
-    }
-    public function GenreList($genre_list){
-        //sukuriam tuscia masyva, nes esant klaida
-        //nepaduodama reiksme, ar neturi reiksmiu
-        $genres = array();
-        foreach($genre_list as $list){
-            $genres[] = $list['genre'];
-        }
-        //susikuriam stringa kad reik nera
-        $genre = "";
-        if(count($genres)){
-            $genre = implode(', ', $genres);
-        }
-        
-        return $genre;
+        //$author = implode(', ', collect($author_list)->pluck('name'));
+        return $string;
     }
 
 
-    public function checkGenres($genre_id, $check_list){
-        foreach($check_list as $list){
-            if($list->id == $genre_id){return 'checked';}
+    public function CheckGenres($genre_id, $checked_list){
+        foreach($checked_list as $list){
+            if($list->id == $genre_id){
+                return 'checked';}
         }
     }
 
-    public function allBookRating($rating_list){
-
+    public function AllBookRating($rating_list)
+    {
         return $rating_list->average('rating')*20;
     }
-
-    public function created_at_difference(){
-        return Carbon::createFromTimestamp(strtotime($this->created_at))->diff(Carbon::now())->days;
-   } 
 
     public function genres(){
         return $this->belongsToMany(Genre::class, 'book_genre')
@@ -98,7 +80,7 @@ class Book extends Model
 
    public function report(){
     return $this->hasOne(Report::class)
-    ->where('user_id', Auth::id());
+    ->where('user_id', auth()->id());
 }
 
    public function user(){

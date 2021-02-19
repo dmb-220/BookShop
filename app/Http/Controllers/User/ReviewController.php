@@ -16,9 +16,10 @@ class ReviewController extends Controller
      */
     public function index()
     {
-        return view('user.review.index')
-        ->with('reviews', Review::where('user_id', Auth::id())
-        ->paginate(20));
+        $reviews = Review::where('user_id', Auth::id())
+            ->paginate(20);
+
+        return view('user.review.index', compact('reviews'));
     }
 
     /**
@@ -39,7 +40,6 @@ class ReviewController extends Controller
      */
     public function store(Request $request)
     {
-        //Atliekam validacija
         $request->validate([
             'reviews' => 'required|min:10|max:250',
             'rating' => 'required|numeric|min:1|max:5',
@@ -47,13 +47,10 @@ class ReviewController extends Controller
         ]);
 
         $requestData = $request->all();
-        $requestData['user_id'] = Auth::id();
+        $requestData['user_id'] = auth()->id();
 
-        //irasom i duomenu baze
         Review::create($requestData);
 
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
         return redirect()->route('books.show', $request->book_id)
         ->with('success','Review created successfully.');
     }
@@ -100,11 +97,8 @@ class ReviewController extends Controller
      */
     public function destroy(Request $request, Review $review)
     {
-        //reik apsaugos, kad is isores negaliu sukurti uzklausa ir trinti reviews
-        //tikrinti ar  review autorius nori ji istrinti
          $review->delete();
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
+         
         return redirect()->route('user.review.index')
         ->with('success','Review deleted successfully.');
     }

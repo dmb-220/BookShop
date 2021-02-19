@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">Book edit</div>
                 <div class="card-body">
-                    <form action="{{ route('user.books.update', $book->id) }}" method="POST"   enctype="multipart/form-data">
+                    <form action="{{ route('user.books.update', $book) }}" method="POST"   enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group row">
@@ -23,7 +23,7 @@
                         <div class="form-group row">                    
                             <label class="col-md-4 col-form-label text-md-right" for="author">Author</label>   
                             <div class="col-md-8">
-                            <input name="author" value="{{ $book->AuthorsList($book->authors) }}" 
+                            <input name="author" value="{{ $book->ArrayToString($book->authors) }}" 
                                 type="text" class="form-control" placeholder="Enter author name">   
                             <small class="form-text text-muted">Authors are separated by commas</small>
                             @if ($errors->has('author'))
@@ -40,7 +40,7 @@
                                         @foreach($row as $genre)
                                         <label class="custom-control custom-checkbox">
                                             <input class="custom-control-input"  type="checkbox" name="genre[]" {{ $book->checkGenres($genre->id, $book->genres) }} value="{{$genre->id}}">
-                                            <div class="custom-control-label">{{$genre->genre }}</div>
+                                            <div class="custom-control-label">{{$genre->name }}</div>
                                           </label>
                                         @endforeach
                                     </div>

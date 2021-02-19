@@ -17,14 +17,20 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/', [App\Http\Controllers\BookController::class, 'index'])->name('index');
-Route::get('genre/{genre}', [App\Http\Controllers\GenreController::class, 'index'])->name("genres_view");
-Route::post('search', [App\Http\Controllers\SearchController::class, 'index'])->name("search_view");
-Route::resource('books', App\Http\Controllers\BookController::class);
+Route::get('genres_show/{genre_show}', [App\Http\Controllers\BookController::class, 'genres_show'])->name("genres_show");
+Route::get('books/{book}', [App\Http\Controllers\BookController::class, 'show'])->name("book_show");
+Route::post('search_show', [App\Http\Controllers\BookController::class, 'search_show'])->name("search_show");
+//Route::resource('books', App\Http\Controllers\BookController::class);
 
 //USER
 Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], function () {
+
+    Route::put('password_update/{user}', [App\Http\Controllers\User\UserController::class, 'password_update'])->name('password_update');
     Route::resource('user', App\Http\Controllers\User\UserController::class);
+
+    Route::put('discount_update/{book}', [App\Http\Controllers\User\BookController::class, 'discount_update'])->name('discount_update');
     Route::resource('books', App\Http\Controllers\User\BookController::class);
+
     Route::resource('reviews', App\Http\Controllers\User\ReviewController::class);
     Route::resource('reports', App\Http\Controllers\User\ReportController::class);
 
@@ -32,8 +38,11 @@ Route::group(['middleware' => 'auth', 'prefix' => 'user', 'as' => 'user.'], func
 
 //ADMIN
 Route::group(['middleware' => 'CheckRole:admin', 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::resource('admin', App\Http\Controllers\Admin\AdminController::class);
+    Route::resource('user_control', App\Http\Controllers\Admin\UserControlController::class);
+
+    Route::put('approved_update/{book}', [App\Http\Controllers\Admin\BookController::class, 'approved_update'])->name('approved_update');
     Route::resource('books', App\Http\Controllers\Admin\BookController::class);
+
     Route::resource('genres', App\Http\Controllers\Admin\GenreController::class);
     Route::resource('authors', App\Http\Controllers\Admin\AuthorController::class);
     Route::resource('reviews', App\Http\Controllers\Admin\ReviewController::class);

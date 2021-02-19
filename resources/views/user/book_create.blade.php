@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">New book create</div>
                 <div class="card-body">
-                    <form action="{{ route('books.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('user.books.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group row">
                             <label class="col-md-4 col-form-label text-md-right" for="title">Title</label>   
@@ -38,7 +38,7 @@
                                         @foreach($row as $genre)
                                         <label class="custom-control custom-checkbox">
                                             <input class="custom-control-input"  type="checkbox" name="genre[]" value="{{$genre->id}}">
-                                            <div class="custom-control-label">{{$genre->genre }}</div>
+                                            <div class="custom-control-label">{{$genre->name }}</div>
                                           </label>
                                         @endforeach
                                     </div>

@@ -6,15 +6,15 @@
             <a href="{{ url('/') }}"><h1>BookShop</h1></a>
         </div>
         <div class="col-lg-4 col-xl-5 col-sm-8 col-md-4 d-none d-md-block">
-                <form action="{{ route('search_view')}}" method="POST" class="search">
+                <form action="{{ route('search_show')}}" method="POST" class="search">
                     @csrf
                     <div class="input-group w-100">
                         <input type="text" name="search" class="form-control" style="width:55%;" placeholder="Search">
                         <div class="input-group-append">
-                          <button class="btn btn-primary" type="submit">
+                          <button class="btn btn-danger" type="submit">
                             <i class="fa fa-search"></i>
                           </button>
-                          <a href="{{ route('books.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> New Book</a>
+                          <a href="{{ route('user.books.create') }}" class="btn btn-success"><i class="fa fa-plus"></i> New Book</a>
                         </div>
                     </div>
                 </form>
@@ -59,14 +59,14 @@
                     @else  
                     <div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(64px, 46px, 0px);">
                         @if (Auth::user()->isAdmin())
-                        <a class="dropdown-item" href="{{ route('user.user.index') }}">Profile setting</a>
+                        <a class="dropdown-item" href="{{ route('user.user.edit', auth()->id()) }}">Profile setting</a>
                         <a class="dropdown-item" href="{{ route('user.books.index') }}">My Books </a>
                         <a class="dropdown-item" href="{{ route('admin.books.index') }}">All Books </a>
                         <a class="dropdown-item" href="{{ route('admin.genres.index') }}">Genres </a>
                         <a class="dropdown-item" href="{{ route('admin.authors.index') }}">Authors </a>
                         <a class="dropdown-item" href="{{ route('admin.reviews.index') }}">Reviews </a>
                         <a class="dropdown-item" href="{{ route('admin.reports.index') }}">Reports </a>
-                        <a class="dropdown-item" href="{{ route('admin.admin.index') }}">Users control</a>
+                        <a class="dropdown-item" href="{{ route('admin.user_control.index') }}">Users control</a>
                         @else
                         <a class="dropdown-item" href="{{ route('user.user.index') }}">Profile setting</a>
                         <a class="dropdown-item" href="{{ route('user.books.index') }}">Books </a>

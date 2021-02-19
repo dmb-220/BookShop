@@ -20,7 +20,7 @@ class CreateBooksTable extends Migration
             $table->text('description');
             $table->integer('price');
             $table->integer('discount');
-            $table->boolean('check')->default(false);
+            $table->boolean('approved')->default(false);
             $table->timestamps();
         });
     }

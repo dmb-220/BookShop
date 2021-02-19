@@ -1,7 +1,19 @@
 @extends('layouts.admin_app')
 
 @section('content')
+@if ($message = Session::get('success'))
+    <div class="container-fluid"> 
+        <div class="alert alert-success">
+            <p>{{ $message }}</p>
+        </div>
+    </div>
+@endif
+
+
 <div class="card">
+    <header  class="card-header">
+        Book list
+    </header>
     <div class="card-body">
         @forelse ($books as $book)
         <article class="card card-product-list">
@@ -23,11 +35,12 @@
                                     <div class="float-right alert alert-danger"><b>{{ $book->discount }} %</b></div>
                                 </span>
                                 @endif
-                        {{ $book->AuthorsList($book->authors) }}
-                        <a href="{{ route('books.show', $book->id) }}">
+
+                        {{ $book->ArrayToString($book->authors) }}
+                        <a href="{{ route('book_show', $book) }}">
                             <div class="h5 title"> {{ $book->title }}</div>
                         </a>
-                        {{ $book->GenreList($book->genres) }}
+                        {{ $book->ArrayToString($book->genres) }}
                         <hr>
                         {{ $book->description }}
                         <hr>

@@ -62,9 +62,8 @@
                                         {{ __('Forgot Your Password?') }}
                                     </a>
                                 @endif
-                                <hr>
                                 @if (Route::has('register'))
-                                <a class="btn btn-primary btn-block" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                <a class="btn btn-link" href="{{ route('register') }}">{{ __('Register') }}</a>
                                 @endif
 
                             </div>

@@ -4,9 +4,12 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use App\Models\User;
+use App\Models\Review;
+use App\Models\Report;
+use App\Models\Book;
 use Illuminate\Http\Request;
 
-class AdminController extends Controller
+class UserControlController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +18,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.index')
+        return view('admin.user.index')
         ->with('users', User::with('role', 'books', 'reports', 'reviews')
             ->orderBy('role_id')
             ->paginate(10));
@@ -61,7 +64,7 @@ class AdminController extends Controller
      */
     public function edit($id)
     {   
-        return view('admin.edit')
+        return view('admin.user.edit')
             ->with('user', User::where('id', $id)
             ->first());
     }
@@ -86,9 +89,14 @@ class AdminController extends Controller
      */
     public function destroy($id)
     {
-        User::find(auth()->user()->id)->delete();
+        Review::where('user_id', $id)->delete();
+        Report::where('user_id', $id)->delete();
+        Book::where('user_id', $id)->delete();
 
-        return redirect()->route('admin.admin.index')
+        User::where('id', $id)
+            ->delete();
+
+        return redirect()->route('admin.user.index')
             ->with('success','User deleted successfully.');
     }
 }

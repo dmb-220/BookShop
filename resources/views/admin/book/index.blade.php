@@ -36,9 +36,9 @@
                                 </span>
                                 @endif
 
-                        {{ $book->AuthorsList($book->authors) }}
+                        {{ $book->ArrayToString($book->authors) }}
                         <div class="h5 title"> {{ $book->title }}</div>
-                        {{ $book->GenreList($book->genres) }}
+                        {{ $book->ArrayToString($book->genres) }}
                         <hr>
                         {{ $book->strDescription }}
                     </div>
@@ -49,10 +49,10 @@
                         <a href="{{ route('admin.books.show', $book->id) }}" class="btn btn-sm btn-info btn-block"> Details </a>
                         <a href="{{ route('admin.books.edit', $book->id) }}" class="btn btn-sm btn-primary btn-block"> Edit </a>
                         <br>
-                        @if(!$book->check)
-                        <form action="{{ route('admin.books.update', $book->id)}}" method="post">
+                        @if(!$book->approved)
+                        <form action="{{ route('admin.approved_update', $book)}}" method="post">
                             @csrf
-                            @method('PATCH')
+                            @method('PUT')
                             <button class="btn btn-sm btn-success btn-block" onclick="return confirm('Verify book?');" type="submit">Confirm</button>
                         </form>
                         @endif

@@ -15,9 +15,10 @@ class ReportController extends Controller
      */
     public function index()
     {
-        return view('admin.report.index')
-        ->with('reports', Report::with('user', 'book')
-            ->paginate(20));
+        $reports = Report::with('user', 'book')
+            ->paginate(20);
+
+        return view('admin.report.index', compact('reports'));
     }
 
     /**
@@ -72,21 +73,14 @@ class ReportController extends Controller
      */
     public function update(Request $request, Report $report)
     {
-        //Atliekam validacija
         $request->validate([
             'ansver' => 'required|min:10|max:250',
         ]);
 
-        //var_dump($request);
+        $report->update(
+            ['ansver' => $request->ansver]
+        );
 
-        //$requestData = $request->all();
-        //$requestData['user_id'] = Auth::id();
-
-        //irasom i duomenu baze
-        $report->update(['ansver' => $request->ansver]);
-
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
         return redirect()->route('admin.reports.index')
         ->with('success','Review created successfully.');
     }
@@ -100,8 +94,7 @@ class ReportController extends Controller
     public function destroy(Report $report)
     {
         $report->delete();
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
+
         return redirect()->route('admin.report.index')
         ->with('success','Report deleted successfully.');
     }

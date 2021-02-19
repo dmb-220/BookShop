@@ -16,7 +16,7 @@
     <div class="card-body">
         <div class="row">
             <div class="col-md-4">
-                <form action="{{ route('user.user.update', $user->id) }}" method="POST">
+                <form action="{{ route('user.password_update', $user) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="form-group row">                    
@@ -54,9 +54,9 @@
                 </form>
             </div>
             <div class="col-md-8">
-                <form action="{{ route('user.user.update', $user->id) }}" method="POST"  enctype="multipart/form-data">
+                <form action="{{ route('user.user.update', $user) }}" method="POST"  enctype="multipart/form-data">
                     @csrf
-                    @method('PATCH')
+                    @method('PUT')
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label text-md-right" for="title">User name</label>   
                         <div class="col-md-10">                

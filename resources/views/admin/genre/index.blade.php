@@ -17,7 +17,6 @@
 <table class="table table-striped">
     <thead>
         <tr>
-            <th scope="col"></th>
           <th scope="col">Genre</th>
           <th scope="col">Count</th>
           <th scope="col">Last modified</th>
@@ -27,10 +26,9 @@
     <tbody>
     @forelse ($genres as $genre)
     <tr>
-        <td>{{ $genre->id }}</td>
-        <td>{{ $genre->genre }}</td>
+        <td>{{ $genre->name }}</td>
         <td>{{ $genre->books->count() }}</td>
-        <td>{{ \Carbon\Carbon::parse($genre->created_at)->format('Y-m-d') }}</td>
+        <td>{{ $genre->created_at->format('Y-m-d') }}</td>
         <td class="text-right">
             <form action="{{ route('admin.genres.destroy', $genre->id)}}" method="post">
                 @csrf

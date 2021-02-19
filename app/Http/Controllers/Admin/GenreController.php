@@ -15,9 +15,10 @@ class GenreController extends Controller
      */
     public function index()
     {
-        return view('admin.genre.index')
-        ->with('genres', Genre::with('books')
-        ->paginate(20));
+        $genres = Genre::with('books')
+            ->paginate(20);
+
+        return view('admin.genre.index', compact('genres'));
     }
 
     /**
@@ -38,15 +39,12 @@ class GenreController extends Controller
      */
     public function store(Request $request)
     {
-        //Atliekam validacija
         $request->validate([
             'genre' => 'required|min:3|max:255',
         ]);
 
-        //irasom i duomenu baze
         Genre::create($request->all());
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
+
         return redirect()->route('admin.genres.index')
         ->with('success','Genre created successfully.');
     }
@@ -82,15 +80,12 @@ class GenreController extends Controller
      */
     public function update(Request $request, Genre $genre)
     {
-        //Atliekam validacija
         $request->validate([
             'genre' => 'required|min:3|max:255',
         ]);
 
-        //irasom i duomenu baze
         $genre->update($request->all());
-        //gristam i pradini puslapi
-        //siunciam pranesima kad irasymas atliktas
+        
         return redirect()->route('admin.genres.index')
         ->with('success','Genre updated successfully.');
 
@@ -106,8 +101,7 @@ class GenreController extends Controller
     {
         if(!$genre->books->count()){
             $genre->delete();
-            //gristam i pradini puslapi
-            //siunciam pranesima kad irasymas atliktas
+            
             return redirect()->route('admin.genres.index')
             ->with('success','Genre deleted successfully.');
         }else{

@@ -87,10 +87,8 @@
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Register') }}
                                 </button>
-
-                                <hr>
                                 @if (Route::has('login'))
-                                <a class="btn btn-primary btn-block" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                <a class="btn btn-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 @endif
                             </div>
                         </div>

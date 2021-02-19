@@ -34,7 +34,7 @@
                         <td>{{ $user->birthday  }}</td>
                         <td>{{ $user->created_at->format('Y-m-d') }}</td>
                         <td class="text-right">
-                            <form action="{{ route('admin.admin.destroy', $user->id)}}" method="post">
+                            <form action="{{ route('admin.user_control.destroy', $user)}}" method="post">
                                 @csrf
                                 @method('DELETE')
                                 {{-- <a href="{{ route('admin.admin.edit', $user->id) }}" class="btn btn-sm btn-primary"> Edit </a> --}}

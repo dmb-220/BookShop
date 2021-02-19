@@ -31,10 +31,10 @@
                             <a class="btn-overlay" href="#"><i class="fa fa-plus"></i> Add Wish List</a>
                         </div>
                         <figcaption class="info-wrap border-top">
-                            {{ $book->AuthorsList($book->authors) }}
-                            <a href="{{ route('books.show', $book->id) }}" class="title"><h5> {{ $book->title }} </h5></a>
+                            {{ $book->ArrayToString($book->authors) }}
+                            <a href="{{ route('book_show', $book) }}" class="title"><h5> {{ $book->title }} </h5></a>
                             <h6>
-                                {{ $book->GenreList($book->genres) }}
+                                {{ $book->ArrayToString($book->genres) }}
                             </h6>
                             <hr>
                             <!-- vienoje eiluteje rikiavimas prie vieno ir kitos puses -->

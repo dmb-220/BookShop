@@ -12,7 +12,7 @@
             <div class="form-group row">
                 <label class="col-md-4 col-form-label text-md-right" for="title">Genre name:</label>  
                 <div class="col-md-8">
-                <input name="genre" value="{{ $genre->genre }}" type="text" class="form-control" placeholder="Enter genre name">                   
+                <input name="genre" value="{{ $genre->name }}" type="text" class="form-control" placeholder="Enter genre name">                   
                 @if ($errors->has('genre'))
                     <span class="text-danger">{{ $errors->first('genre') }}</span>
                 @endif

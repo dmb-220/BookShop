@@ -15,7 +15,7 @@ class Genre extends Model
     ];
 
 
-public function getStrDescriptionAttribute(){
+    public function getStrDescriptionAttribute(){
         return Str::words($this->description, '30');
     }
 

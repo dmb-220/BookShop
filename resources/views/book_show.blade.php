@@ -123,7 +123,6 @@
           </div>
 
         <hr>
-
         <div class="row">  
             <div class="col-md-12">
                 @if (auth()->id())
@@ -141,30 +140,12 @@
                 </div>
 
                 <input type="hidden" name="book_id" value="{{ $book->id }}" />
-
+                
                 <div class="form-group row">
                     <label class="col-md-2 col-form-label text-md-right">Rating</label>
                     <div class="col-sm-9 pt-1">
-                        <label class="custom-control custom-radio custom-control-inline">
-                          <input class="custom-control-input" type="radio" name="rating" value="1">
-                          <span class="custom-control-label"> 1 </span>
-                        </label>
-                        <label class="custom-control custom-radio custom-control-inline">
-                          <input class="custom-control-input" type="radio" name="rating" value="2">
-                          <span class="custom-control-label"> 2 </span>
-                        </label>
-                        <label class="custom-control custom-radio custom-control-inline">
-                          <input class="custom-control-input" type="radio" name="rating" value="3">
-                          <span class="custom-control-label"> 3 </span>
-                        </label>
-                        <label class="custom-control custom-radio custom-control-inline">
-                            <input class="custom-control-input" type="radio" name="rating" value="4">
-                            <span class="custom-control-label"> 4 </span>
-                        </label>
-                        <label class="custom-control custom-radio custom-control-inline">
-                            <input class="custom-control-input" type="radio" name="rating" value="5">
-                            <span class="custom-control-label"> 5 </span>
-                        </label>
+
+                        <example-component />
                         <br>
                         @if ($errors->has('rating'))
                             <span class="text-danger">{{ $errors->first('rating') }}</span>

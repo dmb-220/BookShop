@@ -18,10 +18,10 @@ class BooksResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'cover' => asset("storage/".$this->cover),
             'price' => $this->price,
             'authors' => $this->ArrayToString($this->authors),
             'genre' => $this->ArrayToString($this->genres),
         ];
-        //return parent::toArray($request);
     }
 }

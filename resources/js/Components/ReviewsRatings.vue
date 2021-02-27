@@ -103,17 +103,27 @@ import StarRating from 'vue-star-rating'
       },
       
       deleteReviews(id){
-        axios
-          .delete('http://book.test/api/reviews/'+ id +'/destroy')
+        this.$swal({
+          title: "Delete this review?",
+          text: "Are you sure? You won't be able to revert this!",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          confirmButtonText: "Yes, Delete it!",
+          closeOnConfirm: true
+        }).then((result) => {
+          if(result.value){
+          axios.delete('http://book.test/api/reviews/'+ id +'/destroy')
           .then(response => {
-             this.get_reviews();
-            //console.log(response.data)
-            this.$toast.open({
-              message: response.data,
-              type: 'success',
-              position: 'top-right'
+            this.$swal('Review deleted successfully');
+            this.get_reviews();
+          })
+          .catch(error => {
+            console.log(error.response)
+            this.$swal({icon: 'error', title: 'ERROR! Review not deleted!'});
           });
-        });
+        }
+        })
       },
 
       get_reviews(page = 1){
@@ -138,17 +148,14 @@ import StarRating from 'vue-star-rating'
             })
           .then(response => {
             //console.log(response.data.data)
-            this.$toast.open({
-              message: "Review create successfully!",
-              type: 'info',
-              position: 'top-right'
-          });
+            this.$swal('Review create successfully');
 
             this.form_submiting = false;
             this.reset_form();
             this.get_reviews()
           })
           .catch( error => {
+            this.$swal({icon: 'error', title: 'ERROR! Review not create!'});
             console.log(error.response)
             if(error.response.status === 422){
               this.errors = error.response.data.errors;

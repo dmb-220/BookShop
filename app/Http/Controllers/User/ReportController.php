@@ -49,7 +49,7 @@ class ReportController extends Controller
 
         Report::create($requestData);
 
-        return redirect()->route('books.show', $request->book_id)
+        return redirect()->route('user.books.show', $request->book_id)
         ->with('success','Report created successfully.');
     }
 

@@ -2,19 +2,10 @@ require('./bootstrap');
 
 import Vue from 'vue'
 
-import VueToast from 'vue-toast-notification';
-// Import one of the available themes
-//import 'vue-toast-notification/dist/theme-default.css';
-import 'vue-toast-notification/dist/theme-sugar.css';
-
-Vue.use(VueToast);
-//Vue.$toast.open({/* options */});
-let instance = Vue.$toast.open('You did it!');
-
-// Force dismiss specific toast
-instance.dismiss();
-// Dismiss all opened toast immediately
-Vue.$toast.clear();
+import VueSweetalert2 from 'vue-sweetalert2';
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
+Vue.use(VueSweetalert2);
 
 Vue.component('pagination', require('laravel-vue-pagination'));
 

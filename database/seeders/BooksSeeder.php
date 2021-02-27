@@ -32,7 +32,7 @@ class BooksSeeder extends Seeder
                 'discount' => 0,
                 'description' => $faker->paragraph,
                 'cover' => 'cover.png',
-                'check' => rand(0, 1),
+                'approved' => rand(0, 1),
                 'user_id' => User::all()->random()->id,
             ]);
 

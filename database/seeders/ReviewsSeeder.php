@@ -27,7 +27,7 @@ class ReviewsSeeder extends Seeder
                 'reviews' => Str::limit($faker->paragraph, 100, '...'),
                 'rating' => rand(1, 5),
                 'user_id' => User::all()->random()->id,
-                'book_id' => Book::check()->get()->random()->id,
+                'book_id' => Book::approved()->get()->random()->id,
             ]);
 
         }

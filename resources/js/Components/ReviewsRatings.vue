@@ -64,7 +64,7 @@
       </div>
       
       <hr>
-        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+        <button  @click="deleteReviews(da.id)" class="btn btn-danger btn-sm" type="submit">Delete</button>
   </article> 
   <hr>
   <pagination :data="Data" @pagination-change-page="get_reviews"></pagination>
@@ -101,12 +101,27 @@ import StarRating from 'vue-star-rating'
         this.rating = 3;
         this.reviews = '';
       },
+      
+      deleteReviews(id){
+        axios
+          .delete('http://book.test/api/reviews/'+ id +'/destroy')
+          .then(response => {
+             this.get_reviews();
+            //console.log(response.data)
+            this.$toast.open({
+              message: response.data,
+              type: 'success',
+              position: 'top-right'
+          });
+        });
+      },
 
       get_reviews(page = 1){
       axios
           .get('http://book.test/api/reviews/'+ this.bookId +'/?page='+ page)
           .then(response => {
-            this.Data = response.data;     
+            this.Data = response.data; 
+            this.get_reviews()
           })
           .catch( error => {
             console.log(error.response)
@@ -124,6 +139,12 @@ import StarRating from 'vue-star-rating'
             })
           .then(response => {
             //console.log(response.data.data)
+            this.$toast.open({
+              message: "Review create successfully!",
+              type: 'info',
+              position: 'top-right'
+          });
+
             this.form_submiting = false;
             this.reset_form();
             this.get_reviews()

@@ -34,4 +34,12 @@ class ReviewsController extends Controller
         return new ReviewsResource($review);
     }
 
+    public function destroy($review_id)
+    {
+        $review = Review::find($review_id);
+        $review->delete();
+
+        return response()->json('Review deleted!');
+    }
+
 }

@@ -18,9 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::get('books', [App\Http\Controllers\Api\BooksController::class, 'index'])->name('index');
 Route::get('books/{book}', [App\Http\Controllers\Api\BooksController::class, 'show'])->name("show");
 
 Route::get('reviews/{book_id}', [App\Http\Controllers\Api\ReviewsController::class, 'show'])->name('reviews_show');
+
 Route::post('reviews_store', [App\Http\Controllers\Api\ReviewsController::class, 'reviews_store'])->name('reviews_store');
 Route::delete('reviews/{review}/destroy', [App\Http\Controllers\Api\ReviewsController::class, 'destroy']);

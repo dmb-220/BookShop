@@ -38,8 +38,11 @@ class ReviewsController extends Controller
     public function destroy($review_id)
     {
         $review = Review::find($review_id);
+        //not works
+        //if($review->user_id != auth()->id()){
+            //return response()->json("Review delete you can't! You not review author");
+        //}
         $review->delete();
-
         return response()->json('Review deleted!');
     }
 

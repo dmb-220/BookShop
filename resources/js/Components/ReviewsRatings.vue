@@ -64,7 +64,7 @@
       </div>
       
       <hr>
-        <button  @click="deleteReviews(da.id)" class="btn btn-danger btn-sm" type="submit">Delete</button>
+        <button v-if="userId === da.user.id"  @click="deleteReviews(da.id)" class="btn btn-danger btn-sm" type="submit">Delete</button>
   </article> 
   <hr>
   <pagination :data="Data" @pagination-change-page="get_reviews"></pagination>

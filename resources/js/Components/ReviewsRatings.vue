@@ -121,7 +121,6 @@ import StarRating from 'vue-star-rating'
           .get('http://book.test/api/reviews/'+ this.bookId +'/?page='+ page)
           .then(response => {
             this.Data = response.data; 
-            this.get_reviews()
           })
           .catch( error => {
             console.log(error.response)

@@ -13,6 +13,7 @@ class ReviewsController extends Controller
     public function show($book_id)
     {
         $reviews = Review::where('book_id', $book_id)
+            ->with('user')
             ->latest()
             ->paginate(10);
 
